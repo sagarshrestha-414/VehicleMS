@@ -1,0 +1,110 @@
+{% extends 'vehicle/customerbase.html' %}
+{% load static %}
+{% block content %}
+
+	
+	<div class="wrapper">
+
+
+		<div class="row">
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-primary">
+					<p>
+						<i class="fas fa-tasks"></i>
+					</p>
+					<h3>{{new_request_made}}</h3>
+					<p>New Request Made</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-primary">
+					<p>
+						<i class="fas fa-spinner"></i>
+					</p>
+					<h3>{{work_in_progress}}</h3>
+					<p>Vehicle Repair In Progress</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-primary">
+					<p>
+						<i class="fas fa-check-circle"></i>
+					</p>
+					<h3>{{work_completed}}</h3>
+					<p>Vehicle Repaired</p>
+				</div>
+			</div>
+			<div class="col-3 col-m-6 col-sm-6">
+				<div class="counter bg-primary">
+					<p>
+						<i class="fas fa-rupee-sign"></i>
+					</p>
+					<h3>{{bill}}</h3>
+					<p>Total Bill</p>
+				</div>
+			</div>
+		</div>
+<!--<div>-->
+
+<!--    <h3 style="color:red; text-align:center" > Cost of Repairs</h3>-->
+
+<!--</div>-->
+<div>
+	<div class="row">
+			<div class="col-12 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 style="color:red; text-align:center" >Cost of Repairs
+						</h3>
+						<form class="navbar-search">
+			<input type="text" name="Search" id="Search2" class="navbar-search-input" placeholder="What you looking for...">
+			<i class="fas fa-search"></i>
+		</form>
+
+					</div>
+<div class="card-content">
+  <table id="myTable2" style="width:100%">
+    <thead>
+                <tr>
+
+                  <th><center>Problem Description</center></th>
+
+                  <th><center>Total Cost</center></th>
+                </tr>
+                </thead>
+                <tbody>
+				{% for p in pb %}
+                <tr>
+                  <td><center>{{p.ProblemDescription}}</center></td>
+                  <td><center>{{p.Cost}}</center></td>
+                </tr>
+                 {% endfor %}
+
+                </tbody>
+  	</table>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#Search2").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable2 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+ });
+
+</script>
+
+
+
+</div><br><br><br><br>
+		
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	
+{% endblock content %}

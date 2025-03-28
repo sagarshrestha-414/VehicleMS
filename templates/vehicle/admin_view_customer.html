@@ -1,0 +1,70 @@
+{% extends 'vehicle/adminbase.html' %}
+{% block content %}
+{% load static %}
+	
+	<div class="wrapper">
+
+
+		<div class="row">
+			<div class="col-12 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 style="color:red; text-align:center" >Customers
+						</h3>
+						<form class="navbar-search">
+						<input type="text" name="Search" id="Search3" class="navbar-search-input" placeholder="What you looking for...">
+						<i class="fas fa-search"></i>
+						</form>
+					</div>
+					<div class="card-content">
+					<table id="myTable3">
+							<thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Profile Picture</th>
+                  <th>Mobile</th>
+                  <th>Address</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+                </tr>
+							</thead>
+							<tbody>
+              {% for c in customers %}
+                <tr>
+                  <td> {{c.get_name}}</td>
+                  <td> <img src="{% static c.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+                  <td>{{c.mobile}}</td>
+                  <td>{{c.address}}</td>
+                  <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'update-customer' c.id  %}">&#9998;</a></td>
+                  <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'delete-customer' c.id  %}">&#10008;</a></td>
+                </tr>
+                {% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#Search3").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable3 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+<!--  $("#Search1").on("keyup", function() {-->
+<!--    var value = $(this).val().toLowerCase();-->
+<!--    $("#myTable1 tr").filter(function() {-->
+<!--      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)-->
+<!--    });-->
+<!--  });-->
+});
+</script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	
+{% endblock content %}

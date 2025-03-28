@@ -1,0 +1,67 @@
+{% extends 'vehicle/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+	<div class="wrapper">
+
+
+		<div class="row">
+			<div class="col-12 col-m-12 col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 style="color:red; text-align:center" >
+							Hire Mechanics Based On Skill
+						</h3>
+						<form class="navbar-search">
+						<input type="text" name="Search" id="Search12" class="navbar-search-input" placeholder="What you looking for...">
+						<i class="fas fa-search"></i>
+						</form>
+					</div>
+					<div class="card-content">
+						<table id="myTable12">
+							<thead>
+                <tr>
+                  <th>Mechanic Name</th>
+                  <th>Profile Picture</th>
+                  <th>Mobile Number</th>
+                  <th>Address</th>
+                  <th>Skills</th>
+                  <th>Approve</th>
+                  <th>Delete</th>
+                </tr>
+							</thead>
+							<tbody>
+                {% for m in mechanics %}
+                <tr>
+                  <td> {{m.get_name}}</td>
+                  <td> <img src="{% static m.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+                  <td>{{m.mobile}}</td>
+                  <td>{{m.address}}</td>
+                  <td>{{m.skill}}</td>
+                  <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'approve-mechanic' m.id  %}">&#10004;</a></td>
+                  <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'delete-mechanic' m.id  %}">&#10008;</a></td>
+                </tr>
+                {% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#Search12").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable12 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+});
+</script>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	
+{% endblock content %}
