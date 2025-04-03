@@ -2,128 +2,120 @@
 {% load static %}
 {% block content %}
 
-
-
-<head>
-
-  <style type="text/css">
-    a:link {
-      text-decoration: none;
-    }
-
-    h6 {
-      color: white;
-      font-size: 0.90em;
-    }
-
-    .order-card {
-      color: #fff;
-    }
-
-    .bg-c-blue {
-      background: linear-gradient(45deg, #4099ff, #73b4ff);
-    }
-
-    .bg-c-green {
-      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
-    }
-
-    .bg-c-yellow {
-      background: linear-gradient(45deg, #FFB64D, #ffcb80);
-    }
-
-    .bg-c-pink {
-      background: linear-gradient(45deg, #FF5370, #ff869a);
-    }
-
-
-    .card {
-      border-radius: 5px;
-      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      border: none;
-      margin-bottom: 30px;
-      -webkit-transition: all 0.3s ease-in-out;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .card .card-block {
-      padding: 25px;
-    }
-
-    .order-card i {
-      font-size: 26px;
-    }
-
-    .f-left {
-      float: left;
-    }
-
-    .f-right {
-      float: right;
-    }
-    h6{
-      size:20;
-    }
-  </style>
-</head>
-
-<body>
-
-  <br><br><br><br><br>
-  <div style="margin-left:100px;" class="container">
-    <div class="row">
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/customer-view-request">
-              <h6 class="m-b-20">View Pending Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-eye f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/customer-add-request">
-              <h6 class="m-b-20">Make Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-plus-circle f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/customer-view-approved-request">
-              <h6 class="m-b-20">Approved Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-check-circle f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/customer-view-approved-request-invoice">
-              <h6 class="m-b-20">Approved Request Bill</h6>
-            </a>
-              <h2 class="text-right"><i class="fas fa-rupee-sign f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
+<div class="dashboard-container">
+    <!-- Request Cards Section -->
+    <div class="counters-section">
+        <a href="/customer-view-request" class="counter bg-primary">
+            <p><i class="fas fa-eye"></i></p>
+            <h3>View Pending Request</h3>
+        </a>
+        
+        <a href="/customer-add-request" class="counter bg-warning">
+            <p><i class="fas fa-plus-circle"></i></p>
+            <h3>Make Request</h3>
+        </a>
+        
+        <a href="/customer-view-approved-request" class="counter bg-success">
+            <p><i class="fas fa-check-circle"></i></p>
+            <h3>Approved Request</h3>
+        </a>
+        
+        <a href="/customer-view-approved-request-invoice" class="counter bg-danger">
+            <p><i class="fas fa-rupee-sign"></i></p>
+            <h3>Approved Request Bill</h3>
+        </a>
     </div>
+</div>
 
-  </div>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<style>
+    /* EXACTLY MATCHES DASHBOARD STYLING */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    .counters-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .counter {
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .counter:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .counter i {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .counter h3 {
+        font-size: 1.3rem;
+        margin: 10px 0;
+        font-weight: 600;
+    }
+    
+    /* COLOR THEMES FROM DASHBOARD */
+    .bg-primary {
+        background: rgba(67, 97, 238, 0.1);
+        color: #4361ee;
+    }
+    
+    .bg-warning {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+    
+    .bg-success {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+    
+    .bg-danger {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+    
+    /* DARK MODE FROM DASHBOARD */
+    .dark-mode .counter {
+        background: rgba(255,255,255,0.1);
+    }
+    
+    /* RESPONSIVE BREAKPOINTS FROM DASHBOARD */
+    @media (max-width: 768px) {
+        .counters-section {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        
+        .counter {
+            padding: 20px;
+        }
+        
+        .counter i {
+            font-size: 2rem;
+        }
+        
+        .counter h3 {
+            font-size: 1.1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .counters-section {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 
-</body>
 {% endblock content %}

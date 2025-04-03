@@ -1,54 +1,229 @@
 {% extends 'vehicle/adminbase.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-<head>
-  <style media="screen">
-    input[type=text], select,input[type=number] , textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+<div class="dashboard-container">
+    <div class="update-cost-form full-width-form">
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h3><i class="fas fa-money-bill-wave"></i> Update Cost of Service</h3>
+            </div>
+            <div class="card-content">
+                <form method="post" class="cost-update-form">
+                    {% csrf_token %}
+                    <div class="form-group full-width-input-group">
+                        <label for="cost"><i class="fas fa-rupee-sign"></i> Repair Cost</label>
+                        <div class="input-with-icon full-width-input-container">
+                            <span class="currency-symbol">₹</span>
+                            {% render_field updateCostForm.cost class="form-control full-width-input" placeholder="Enter repair cost amount" %}
+                        </div>
+                    </div>
 
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-
-
-  </style>
-
-
-</head>
-
-<br><br><br><br><br>
-<h3 style="text-align:center;">UPDATE COST OF SERVICE</h3>
-<div>
-  <form method="post" style="margin-left:200px;margin-right:200px;">
-      {% csrf_token %}
-
-    <label for="cost">Repair Cost</label>
-    {% render_field updateCostForm.cost class="form-control" placeholder="Repair Cost" %}
-
-<br><br>
-    <input type="submit" value="Update">
-  </form>
+                    <div class="form-footer full-width-submit">
+                        <button type="submit" class="btn-submit full-width-button">
+                            <i class="fas fa-sync-alt"></i> Update Cost
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+<style>
+    /* Full Width Adjustments */
+    .full-width-form {
+        padding: 30px 20px;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .full-width-card {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .full-width-input-group {
+        width: 100%;
+    }
+    
+    .full-width-input-container {
+        width: 100%;
+    }
+    
+    .full-width-input {
+        width: calc(100% - 35px);
+        box-sizing: border-box;
+        padding-right: 15px; /* Ensures text doesn't get cut off */
+    }
+    
+    .full-width-submit {
+        width: 100%;
+    }
+    
+    .full-width-button {
+        width: 100%;
+    }
 
+    /* Update Cost Form Section */
+    .update-cost-form {
+        padding: 30px;
+        margin: 0 auto;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    
+    .dark-mode .card {
+        background: #2c3e50;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .card-header {
+        padding: 20px;
+        background: #4CAF50;
+        color: white;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .card-header {
+        background: #388E3C;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .card-content {
+        padding: 30px;
+    }
+    
+    /* Form Styles */
+    .cost-update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 100%;
+    }
+    
+    .form-group {
+        margin-bottom: 0;
+        width: 100%;
+    }
+    
+    label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .dark-mode label {
+        color: #f8f9fa;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px 12px 35px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+    
+    .dark-mode .form-control {
+        background-color: #34495e;
+        border-color: #2c3e50;
+        color: #f8f9fa;
+    }
+    
+    /* Currency Input */
+    .input-with-icon {
+        position: relative;
+        width: 100%;
+    }
+    
+    .currency-symbol {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 600;
+        color: #333;
+        z-index: 1;
+    }
+    
+    .dark-mode .currency-symbol {
+        color: #f8f9fa;
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .btn-submit:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .card-header h3 {
+            font-size: 1.3rem;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .update-cost-form {
+            padding: 15px;
+        }
+        
+        .card-header {
+            padding: 15px;
+        }
+        
+        .form-control {
+            padding: 10px 12px 10px 35px;
+            font-size: 0.95rem;
+        }
+        
+        .currency-symbol {
+            left: 12px;
+        }
+    }
+</style>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

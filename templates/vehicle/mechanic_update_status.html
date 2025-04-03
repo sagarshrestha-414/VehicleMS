@@ -1,54 +1,253 @@
 {% extends 'vehicle/mechanicbase.html' %}
 {% load widget_tweaks %}
 {% block content %}
-<head>
-  <style media="screen">
-    input[type=text], select,input[type=number] , textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-
-
-  </style>
-
-
-</head>
-
-<br><br><br><br><br>
-<h3 style="text-align:center;">Update Status Of Work</h3>
-<div>
-  <form method="post" style="margin-left:200px;margin-right:200px;">
-      {% csrf_token %}
-
-    <label for="salary">Status</label>
-    {% render_field updateStatus.status class="form-control"  %}
-
-
-    <input type="submit" value="Update">
-  </form>
+<div class="dashboard-container">
+    <div class="update-status-card">
+        <div class="card-header">
+            <h3>Update Work Status</h3>
+            <p>Update the status for vehicle repair work</p>
+        </div>
+        
+        <form method="post" class="status-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                {% render_field updateStatus.status class="form-control" %}
+                <div class="status-options-info">
+                    <span class="status-option pending">Pending</span>
+                    <span class="status-option in-progress">In Progress</span>
+                    <span class="status-option completed">Completed</span>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Update Status
+                </button>
+                <a href="{% url 'mechanic-work-assigned' %}" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
+<style>
+    /* Main Container */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+    }
+    
+    /* Update Status Card */
+    .update-status-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 600px;
+        overflow: hidden;
+    }
+    
+    /* Card Header */
+    .card-header {
+        padding: 25px;
+        background: linear-gradient(135deg, #3a0ca3 0%, #7209b7 100%);
+        color: white;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .card-header p {
+        margin: 5px 0 0;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+    
+    /* Form Styling */
+    .status-form {
+        padding: 25px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #3a0ca3;
+        box-shadow: 0 0 0 3px rgba(58, 12, 163, 0.1);
+        outline: none;
+    }
+    
+    /* Status Options Info */
+    .status-options-info {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .status-option {
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: rgb(245, 158, 11);
+    }
+    
+    .in-progress {
+        background: rgba(59, 130, 246, 0.1);
+        color: rgb(59, 130, 246);
+    }
+    
+    .completed {
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(16, 185, 129);
+    }
+    
+    /* Form Actions */
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn-submit {
+        flex: 1;
+        background: #3a0ca3;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-submit:hover {
+        background: #7209b7;
+        transform: translateY(-2px);
+    }
+    
+    .btn-cancel {
+        flex: 1;
+        background: white;
+        color: #666;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-cancel:hover {
+        background: #f8f9fa;
+        border-color: #ccc;
+    }
+    
+    /* Dark Mode Support */
+    .dark-mode .update-status-card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .card-header {
+        background: linear-gradient(135deg, #252a3a 0%, #3a0ca3 100%);
+    }
+    
+    .dark-mode .form-group label {
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .form-control {
+        background: #2f3545;
+        border-color: #3a4052;
+        color: white;
+    }
+    
+    .dark-mode .form-control:focus {
+        border-color: #4cc9f0;
+        box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.1);
+    }
+    
+    .dark-mode .btn-cancel {
+        background: #2f3545;
+        border-color: #3a4052;
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .btn-cancel:hover {
+        background: #3a4052;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .card-header {
+            padding: 20px;
+        }
+        
+        .status-form {
+            padding: 20px;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-header {
+            padding: 15px;
+        }
+        
+        .status-form {
+            padding: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.3rem;
+        }
+    }
+</style>
 
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

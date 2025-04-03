@@ -1,48 +1,188 @@
 {% extends 'vehicle/adminbase.html' %}
-
+{% load static %}
 {% block content %}
 
-
-<head>
-  <style media="screen">
-    .alert {
-      margin-left: 25%;
-      margin-right: 25%;
-      padding: 20px;
-      background-color: #f44336;
-      color: white;
-    }
-    .closebtn {
-      margin-left: 15px;
-      color: white;
-      font-weight: bold;
-      float: right;
-      font-size: 22px;
-      line-height: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .closebtn:hover {
-      color: black;
-    }
-  </style>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-</head>
-<br><br><br><br><br>
-
-<div style="text-align:center;color:blue;">
-  <h2>Feedback Sent By Customer / Mechanic</h2>
-</div><br>
-{%for f in feedback%}
-<div class="alert">
-  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-  <strong>{{f.date}} ||By :{{f.by}} </strong><br> {{f.message}}
+<div class="dashboard-container">
+    <div class="feedback-management">
+        <div class="feedback-header">
+            <h2>Customer & Mechanic Feedback</h2>
+            <p>Review feedback from users and service providers</p>
+        </div>
+        
+        <div class="feedback-list">
+            {% for f in feedback %}
+            <div class="feedback-item">
+                <div class="feedback-header">
+                    <div class="feedback-meta">
+                        <span class="feedback-date">{{f.date}}</span>
+                        <span class="feedback-author">From: {{f.by}}</span>
+                    </div>
+                    <button class="btn-dismiss" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="feedback-content">
+                    <p>{{f.message}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-<br>
-{%endfor%}
 
+<style>
+    /* Feedback Management Section */
+    .feedback-management {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .feedback-header h2 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .feedback-header p {
+        color: var(--secondary);
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+    }
+    
+    /* Feedback List */
+    .feedback-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    /* Feedback Item */
+    .feedback-item {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .dark-mode .feedback-item {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .feedback-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+    
+    .feedback-item .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: var(--light);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .feedback-item .feedback-header {
+        background: var(--surface);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .feedback-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .feedback-date {
+        color: var(--primary);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    
+    .feedback-author {
+        color: var(--secondary);
+        font-size: 0.9rem;
+    }
+    
+    .dark-mode .feedback-author {
+        color: var(--text-secondary);
+    }
+    
+    .btn-dismiss {
+        background: transparent;
+        border: none;
+        color: var(--secondary);
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: all 0.2s;
+        padding: 5px;
+    }
+    
+    .btn-dismiss:hover {
+        color: var(--danger);
+        transform: scale(1.1);
+    }
+    
+    .feedback-content {
+        padding: 20px;
+    }
+    
+    .feedback-content p {
+        margin: 0;
+        color: var(--dark);
+        line-height: 1.6;
+    }
+    
+    .dark-mode .feedback-content p {
+        color: var(--text);
+    }
+    
+    /* Empty State */
+    .feedback-empty {
+        text-align: center;
+        padding: 40px;
+        color: var(--secondary);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .feedback-management {
+            padding: 20px;
+        }
+        
+        .feedback-item .feedback-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .btn-dismiss {
+            align-self: flex-end;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .feedback-management {
+            padding: 15px;
+        }
+        
+        .feedback-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .feedback-header p {
+            font-size: 1rem;
+        }
+        
+        .feedback-content {
+            padding: 15px;
+        }
+    }
+</style>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

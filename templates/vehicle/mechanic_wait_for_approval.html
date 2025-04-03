@@ -1,35 +1,144 @@
-<!DOCTYPE html>
-{% load widget_tweaks %}
+{% extends 'vehicle/mechanicbase.html' %}
+{% block content %}
+{% load static %}
 
+<div class="dashboard-container">
+    <div class="approval-container">
+        <div class="approval-card">
+            <div class="approval-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h2>Hello, {{request.user.first_name}}</h2>
+            <div class="approval-message">
+                <p>Your account is currently under review</p>
+                <p>Our team is verifying your profile details</p>
+                <p>You'll receive notification once approved</p>
+            </div>
+            <div class="approval-actions">
+                <a href="/logout" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <style media="screen">
-    .jumbotron {
-      margin-top: 0px;
-      margin-bottom: 0px;
+<style>
+    /* Approval Container */
+    .approval-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 120px);
+        padding: 20px;
     }
-
-    .jumbotron h1 {
-      text-align: center;
+    
+    .approval-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
     }
-
-    .alert {
-      margin: 0px;
+    
+    /* Approval Icon */
+    .approval-icon {
+        font-size: 4rem;
+        color: rgb(245, 158, 11); /* Amber */
+        margin-bottom: 20px;
     }
-  </style>
-  <body>
-    {% include "vehicle/navbar.html" %}
+    
+    /* Text Styling */
+    .approval-card h2 {
+        color: rgb(59, 130, 246); /* Blue-500 */
+        margin-bottom: 20px;
+    }
+    
+    .approval-message {
+        margin: 25px 0;
+        line-height: 1.6;
+    }
+    
+    .approval-message p {
+        margin: 10px 0;
+        color: #555;
+        font-size: 1.1rem;
+    }
+    
+    /* Button Styling */
+    .btn-logout {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(59, 130, 246);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+        margin-top: 20px;
+    }
+    
+    .btn-logout:hover {
+        background: rgb(29, 78, 216);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn-logout i {
+        margin-right: 8px;
+    }
+    
+    /* Dark Mode Support */
+    .dark-mode .approval-card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .approval-message p {
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .btn-logout {
+        background: #4cc9f0;
+    }
+    
+    .dark-mode .btn-logout:hover {
+        background: #3a86ff;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .approval-card {
+            padding: 30px 20px;
+        }
+        
+        .approval-icon {
+            font-size: 3rem;
+        }
+        
+        .approval-card h2 {
+            font-size: 1.5rem;
+        }
+        
+        .approval-message p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .approval-card {
+            padding: 25px 15px;
+        }
+        
+        .btn-logout {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
 
-      <div class="jumbotron" style="margin-top: 0px;
-        margin-bottom: 0px;">
-        <h1 class="display-4">Hello {{request.user.first_name}}</h1>
-        <p class="lead">Your Account is not approved till now <br><br>Our Team is checking your profile <br><br> Soon you will be hired to our Agency</p>
-        <hr class="my-4">
-        <p>Check Later</p>
-        <p class="lead">
-          <a class="btn btn-primary btn-lg" href="/logout" role="button">Logout For Now</a>
-        </p>
-      </div>
-
-{% include "vehicle/footer.html" %}
-  </body>
-</html>
+{% endblock content %}

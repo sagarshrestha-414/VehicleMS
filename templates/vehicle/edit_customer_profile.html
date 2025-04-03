@@ -1,65 +1,224 @@
 {% extends 'vehicle/customerbase.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-<head>
-  <style media="screen">
-    input[type=text], select,input[type=number] ,input[type=password], textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-
-
-  </style>
-
-
-</head>
-
-<br><br><br><br><br>
-<h1 style="text-align:center;color:blue;">Edit Your Profile</h1>
-<div>
-  <form method="post"  enctype="multipart/form-data" style="margin-left:200px;margin-right:200px;">
-      {% csrf_token %}
-        <label for="first_name">First Name</label>
-        {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-        <label for="last_name">Last Name</label>
-        {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
-          <label for="mobile">Mobile</label>
-          {% render_field customerForm.mobile class="form-control" placeholder="Mobile" %}
-            <label for="address">Address</label>
-          {% render_field customerForm.address class="form-control" placeholder="Address" %}
-
-        <label for="username">Username</label>
-        {% render_field userForm.username class="form-control" placeholder="Username" %}
-          <label for="password">Password</label>
-        {% render_field userForm.password class="form-control" placeholder="Password" %} <br><br>
-        <label for="profile_pic">Profile Picture</label>
-          {% render_field customerForm.profile_pic class="form-control" placeholder="Profile Picture" %}
-<br><br>
-    <input type="submit" value="Edit Your Profile">
-  </form>
+<div class="dashboard-container">
+    <div class="profile-edit-form">
+        <div class="card">
+            <div class="card-header">
+                <h3>Edit Your Profile</h3>
+            </div>
+            <div class="card-content">
+                <form method="post" enctype="multipart/form-data" class="edit-form">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <!-- Personal Information -->
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            {% render_field userForm.first_name class="form-control" placeholder="Enter your first name" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            {% render_field userForm.last_name class="form-control" placeholder="Enter your last name" %}
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="form-group">
+                            <label for="mobile">Mobile</label>
+                            {% render_field customerForm.mobile class="form-control" placeholder="Enter mobile number" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            {% render_field customerForm.address class="form-control" placeholder="Enter your address" %}
+                        </div>
+                        
+                        <!-- Account Information -->
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            {% render_field userForm.username class="form-control" placeholder="Choose a username" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            {% render_field userForm.password class="form-control" placeholder="Set new password" type="password" %}
+                        </div>
+                        
+                        <!-- Profile Picture -->
+                        <div class="form-group full-width">
+                            <label for="profile_pic">Profile Picture</label>
+                            <div class="profile-picture-upload">
+                                {% render_field customerForm.profile_pic class="form-control" %}
+                                <div class="upload-hint">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Click to upload photo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save"></i> Update Profile
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+<style>
+    /* Profile Edit Form Section */
+    .profile-edit-form {
+        padding: 30px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .dark-mode .card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .card-header {
+        padding: 20px;
+        background: var(--primary);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .card-header {
+        background: var(--primary-dark);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        color: white;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .card-content {
+        padding: 30px;
+    }
+    
+    /* Form Styles */
+    .edit-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 0;
+    }
+    
+    .full-width {
+        grid-column: 1 / -1;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text);
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+    
+    .dark-mode .form-control {
+        background-color: var(--card);
+        border-color: var(--surface);
+        color: var(--text);
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(78, 115, 223, 0.2);
+        outline: none;
+    }
+    
+    /* Profile Picture Upload */
+    .profile-picture-upload {
+        position: relative;
+    }
+    
+    .upload-hint {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+        pointer-events: none;
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .btn-submit:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Responsive Adjustments */
+    @media (min-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-edit-form {
+            padding: 15px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .upload-hint span {
+            display: none;
+        }
+    }
+</style>
 
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

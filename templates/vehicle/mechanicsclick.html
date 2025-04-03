@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 {% load static %}
 <html lang="en" dir="ltr">
 
@@ -37,4 +37,113 @@
   {% include "vehicle/footer.html" %}
 </body>
 
+</html>
+ -->
+
+
+ <!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanic Portal | VehicleMS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .welcome-card {
+      max-width: 800px;
+      margin: 80px auto 40px;
+      padding: 40px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    
+    .welcome-title {
+      color: #4361ee;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    .welcome-lead {
+      color: #495057;
+      font-size: 1.25rem;
+      margin-bottom: 15px;
+    }
+    
+    .welcome-divider {
+      width: 100px;
+      height: 3px;
+      background: #4361ee;
+      margin: 20px auto;
+      opacity: 0.5;
+    }
+    
+    .welcome-text {
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+    
+    .btn-welcome {
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-weight: 500;
+      margin: 0 10px;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #4361ee;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background: #3a56d4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .welcome-card {
+        padding: 30px 20px;
+        margin: 60px 20px 40px;
+      }
+      
+      .btn-welcome {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% include "vehicle/navbar.html" %}
+  
+  <div class="welcome-card">
+    <h1 class="welcome-title">Hello Mechanic</h1>
+    <p class="welcome-lead">Welcome to Repair Me Garage</p>
+    <div class="welcome-divider"></div>
+    <p class="welcome-text">You can access various features after Login.</p>
+    <div class="d-flex justify-content-center flex-wrap">
+      <a class="btn btn-primary btn-welcome" href="mechanicsignup" role="button">Apply For Job</a>
+      <a class="btn btn-primary btn-welcome" href="mechaniclogin" role="button">Login</a>
+    </div>
+  </div>
+  
+  {% include "vehicle/footer.html" %}
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

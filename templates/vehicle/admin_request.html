@@ -2,130 +2,244 @@
 {% load static %}
 {% block content %}
 
-
-
-<head>
-
-  <style type="text/css">
-    a:link {
-      text-decoration: none;
-    }
-
-    h6 {
-      color: white;
-      font-size: 0.90em;
-    }
-
-    .order-card {
-      color: #fff;
-    }
-
-    .bg-c-blue {
-      background: linear-gradient(45deg, #4099ff, #73b4ff);
-    }
-
-    .bg-c-green {
-      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
-    }
-
-    .bg-c-yellow {
-      background: linear-gradient(45deg, #FFB64D, #ffcb80);
-    }
-
-    .bg-c-pink {
-      background: linear-gradient(45deg, #FF5370, #ff869a);
-    }
-
-
-    .card {
-      border-radius: 5px;
-      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      border: none;
-      margin-bottom: 30px;
-      -webkit-transition: all 0.3s ease-in-out;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .card .card-block {
-      padding: 25px;
-    }
-
-    .order-card i {
-      font-size: 26px;
-    }
-
-    .f-left {
-      float: left;
-    }
-
-    .f-right {
-      float: right;
-    }
-    h6{
-      size:20;
-    }
-  </style>
-</head>
-
-<body>
-
-  <br><br><br><br><br>
-  <div style="margin-left:100px;" class="container">
-    <div class="row">
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-view-request">
-              <h6 class="m-b-20">View All Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-eye f-left"></i></h2>
-            <br>
-          </div>
+<div class="dashboard-container">
+    <div class="request-management">
+        <h2 class="page-title">Request Management</h2>
+        
+        <div class="action-cards">
+            <div class="action-card">
+                <a href="/admin-view-request" class="card-link">
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>View All Requests</h3>
+                        <p>Browse and manage all service requests</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="action-card">
+                <a href="/admin-add-request" class="card-link">
+                    <div class="card-icon bg-success">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Create Request</h3>
+                        <p>Make a new service request</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="action-card">
+                <a href="/admin-approve-request" class="card-link">
+                    <div class="card-icon bg-warning">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Approve Requests</h3>
+                        <p>Review and approve pending requests</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="action-card">
+                <a href="/admin-view-service-cost" class="card-link">
+                    <div class="card-icon bg-cost">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Service Costs</h3>
+                        <p>View and manage service pricing</p>
+                    </div>
+                </a>
+            </div>
         </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-add-request">
-              <h6 class="m-b-20">Make Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-plus-circle f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-approve-request">
-              <h6 class="m-b-20">Approve Request</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-check-circle f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-view-service-cost">
-              <h6 class="m-b-20">Service Cost</h6>
-            </a>
-              <h2 class="text-right"><i class="fas fa-rupee-sign f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
     </div>
+</div>
 
-  </div>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
+<style>
+    /* Color Variables - Enhanced for better contrast */
+    :root {
+        --primary: #4e73df;       /* Soft blue */
+        --primary-light: #7e9ef7; /* Lighter blue */
+        --primary-dark: #3a56b0;  /* Darker blue */
+        --success: #1cc88a;      /* Green */
+        --warning: #f6c23e;      /* Yellow */
+        --cost: #6f42c1;        /* Purple for cost */
+        --danger: #e74a3b;       /* Red */
+        --light: #f8f9fc;        /* Light background */
+        --dark: #5a5c69;         /* Dark text */
+        --secondary: #858796;    /* Neutral gray */
+    }
 
-  </script>
-</body>
+    .dark-mode {
+        --primary: #4e73df;
+        --primary-light: #7e9ef7;
+        --primary-dark: #3a56b0;
+        --success: #1cc88a;
+        --warning: #f6c23e;
+        --cost: #8a63d2;        /* Lighter purple for dark mode */
+        --danger: #e74a3b;
+        --light: #2a2f3d;        /* Dark background */
+        --dark: #d1d3e2;         /* Light text */
+        --card: #2a2f3d;         /* Card background */
+        --surface: #1f2330;      /* Surface color */
+        --text: #e1e5f2;         /* Primary text */
+        --text-secondary: #a0a8c0; /* Secondary text */
+    }
+
+    /* Request Management Section */
+    .request-management {
+        padding: 30px;
+    }
+    
+    .page-title {
+        color: var(--primary);
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    .dark-mode .page-title {
+        color: var(--primary-light);
+    }
+    
+    /* Action Cards Grid */
+    .action-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+    
+    /* Individual Action Card */
+    .action-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .action-card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        border-color: rgba(255,255,255,0.05);
+    }
+    
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+    
+    .card-link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    /* Icon Section - Improved for visibility */
+    .card-icon {
+        padding: 25px;
+        text-align: center;
+        font-size: 2rem;
+    }
+    
+    /* Background colors for icons */
+    .bg-primary { background: var(--primary); }
+    .bg-success { background: var(--success); }
+    .bg-warning { background: var(--warning); }
+    .bg-cost { background: var(--cost); }  /* Special purple color for cost */
+    .bg-danger { background: var(--danger); }
+    
+    /* Ensure icon visibility on all backgrounds */
+    .card-icon i {
+        color: white; /* Default icon color */
+    }
+    
+    .bg-warning i {
+        color: rgba(0,0,0,0.7); /* Dark icon on yellow background */
+    }
+    
+    .dark-mode .bg-warning i {
+        color: rgba(0,0,0,0.8); /* Darker icon in dark mode */
+    }
+    
+    /* Cost card specific styling */
+    .bg-cost {
+        background: var(--cost);
+    }
+    .bg-cost i {
+        color: white;
+    }
+    
+    .card-content {
+        padding: 25px;
+        flex-grow: 1;
+    }
+    
+    .card-content h3 {
+        margin: 0 0 10px 0;
+        color: var(--dark);
+        font-size: 1.3rem;
+    }
+    
+    .dark-mode .card-content h3 {
+        color: var(--text);
+    }
+    
+    .card-content p {
+        margin: 0;
+        color: var(--secondary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .dark-mode .card-content p {
+        color: var(--text-secondary);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .action-cards {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .action-cards {
+            gap: 20px;
+        }
+        
+        .card-icon {
+            padding: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .request-management {
+            padding: 20px 15px;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+        }
+        
+        .action-cards {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
 {% endblock content %}

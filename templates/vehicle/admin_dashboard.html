@@ -1,222 +1,427 @@
 {% extends 'vehicle/adminbase.html' %}
 {% load static %}
 {% block content %}
-<head>
-	  <style media="screen">
-    input[type=text], select,input[type=number] , textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+<div class="dashboard-container">
+    <!-- Summary Cards -->
+    <div class="counters-section">
+        <div class="counter bg-primary">
+            <div class="counter-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="counter-content">
+                <h3>{{total_customer}}</h3>
+                <p>Total Customers</p>
+            </div>
+        </div>
+        <div class="counter bg-warning">
+            <div class="counter-icon">
+                <i class="fas fa-user-cog"></i>
+            </div>
+            <div class="counter-content">
+                <h3>{{total_mechanic}}</h3>
+                <p>Total Mechanics</p>
+            </div>
+        </div>
+        <div class="counter bg-success">
+            <div class="counter-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <div class="counter-content">
+                <h3>{{total_request}}</h3>
+                <p>Total Requests</p>
+            </div>
+        </div>
+        <div class="counter bg-info">
+            <div class="counter-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="counter-content">
+                <h3>{{total_feedback}}</h3>
+                <p>Total Feedback</p>
+            </div>
+        </div>
+    </div>
 
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+    <!-- Recent Requests Card -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Recent Customer Requests</h3>
+            <div class="search-container">
+                <input type="text" id="Search1" placeholder="Search requests...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="table-container">
+                <table id="myTable1">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Category</th>
+                            <th>Model</th>
+                            <th>Brand</th>
+                            <th>Problem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c,r in data %}
+                        <tr>
+                            <td>{{c.get_name}}</td>
+                            <td>{{r.vehicle_name}}</td>
+                            <td>{{r.category}}</td>
+                            <td>{{r.vehicle_model}}</td>
+                            <td>{{r.vehicle_brand}}</td>
+                            <td class="problem-cell">{{r.problem_description}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
+    <!-- Problem Cost Form -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Problem Cost</h3>
+        </div>
+        <div class="card-content">
+            <form method="post" action="{% url 'create-problemcost' %}" class="problem-cost-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="ProblemDescription">Problem Description</label>
+                    <input type="text" id="ProblemDescription" name="ProblemDescription" placeholder="Enter problem description" required>
+                </div>
+                <div class="form-group">
+                    <label for="Cost">Cost</label>
+                    <input type="text" id="Cost" name="Cost" placeholder="Enter cost" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-plus-circle"></i> Add Cost
+                    </button>
+                    {% if messages %}
+                    <div class="form-messages">
+                        {% for mess in messages %}
+                        <div class="message">{{mess}}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
 
-  </style>
-</head>
-
-	<div class="wrapper">
-
-
-		<div class="row">
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-users"></i>
-					</p>
-					<h3>{{total_customer}}</h3>
-					<p>Total Customer</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-hat-cowboy"></i>
-					</p>
-					<h3>{{total_mechanic}}</h3>
-					<p>Total Mechanic</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-spinner"></i>
-					</p>
-					<h3>{{total_request}}</h3>
-					<p>Total Enquiry</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-comments"></i>
-					</p>
-					<h3>{{total_feedback}}</h3>
-					<p>Total Feedback</p>
-				</div>
-			</div>
-		</div>
-
-
-
-		<div class="row">
-			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 style="color:red; text-align:center" >Recent Enquiry By Customer
-						</h3>
-						<form class="navbar-search">
-						<input type="text" name="Search" id="Search1" class="navbar-search-input" placeholder="What you looking for...">
-						<i class="fas fa-search"></i>
-						</form>
-					</div>
-					<div class="card-content">
-						<table id="myTable1">
-							<thead>
-								<tr>
-									<th>Customer Name</th>
-									<th>Vehicle Name</th>
-									<th>Category</th>
-									<th>Vehicle Model</th>
-									<th>Vehicle Brand</th>
-									<th>Problem Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for c,r in data %}
-								<tr>
-									<td> {{c.get_name}}</td>
-									<td> {{r.vehicle_name}}</td>
-									<td>{{r.category}}</td>
-									<td>{{r.vehicle_model}}</td>
-									<td>{{r.vehicle_brand}}</td>
-									<td>{{r.problem_description}}</td>
-								</tr>
-								{% endfor %}
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-<div>
-	<div class="row">
-			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-    <h1 style="color:red; text-align:center;">Problem Cost</h1>
-						<h2 style="color:red; text-align:center;">Enter the problem description and cost</h2>
-	<div class="card-content">
-
-  		<form method="post" action="{% url 'create-problemcost' %}" style="margin-left:200px;margin-right:200px;">
-	  	{% csrf_token %}
-	  	<center>
-	  	<table border="2px">
-		  	<tr>
-			  	<td>Problem Description</td>
-			  	<td><input type="text" placeholder="Enter Problem" name="ProblemDescription"></td>
-		  	</tr>
-		  	<tr>
-			  	<td>Cost</td>
-			  	<td><input type="text" placeholder="Enter Cost" name="Cost"></td>
-		  	</tr>
-		  	<tr>
-			  	<td><input type="submit" value="submit"></td>
-			  	<td>{% if messages %}
-	  				{% for mess in messages %}
-	  				<b style=""color: blue;>{{mess}}</b>
-	  				{% endfor %}
-				  	{% endif %}</td>
-		  	</tr>
-	  	</table>
-	  	</center>
-  	</form>
-	</div>
-					</div>
-				</div>
-			</div>
-	</div>
+    <!-- Problem Cost List -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Problem Cost List</h3>
+            <div class="search-container">
+                <input type="text" id="Search" placeholder="Search problems...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="table-container">
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Problem Description</th>
+                            <th>Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in problem %}
+                        <tr>
+                            <td>{{d.ProblemDescription}}</td>
+                            <td>₹{{d.Cost}}</td>
+                            <td class="actions">
+                                <a href="{% url 'deleteproblemcost' d.id %}" class="btn-delete" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<!--<form class="navbar-search">-->
-<!--			<input type="text" name="Search" id="Search" class="navbar-search-input" placeholder="What you looking for...">-->
-<!--			<i class="fas fa-search">Search</i>-->
 
-<!--		</form>-->
-		<div class="row">
-			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 style="color:red; text-align:center" >Problem with Cost
-						</h3>
-						<form class="navbar-search">
-						<input type="text" name="Search" id="Search" class="navbar-search-input" placeholder="What you looking for...">
-						<i class="fas fa-search"></i>
-						</form>
-					</div>
-					<div class="card-content">
-						<table id="myTable">
-							<thead>
-								<tr>
+<style>
+    :root {
+        /* Admin Theme Colors - Adjusted for better dark mode */
+        --primary: #4e73df;       /* Softer blue */
+        --primary-light: #7e9ef7;  
+        --primary-dark: #3a56b0;
+        --secondary: #858796;     /* Neutral gray */
+        --success: #1cc88a;       /* Green */
+        --info: #36b9cc;          /* Cyan */
+        --warning: #f6c23e;       /* Yellow */
+        --danger: #e74a3b;        /* Red */
+        --light: #f8f9fc;         /* Light background */
+        --dark: #5a5c69;          /* Dark text */
+    }
 
-									<th>Problem Description</th>
-									<th>Cost</th>
-									<th>Delete</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for d in problem %}
-								<tr>
-									<td>{{d.ProblemDescription}}</td>
-									<td>{{d.Cost}}</td>
-									<td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'deleteproblemcost' d.id  %}">&#10008;</a></td>
+    .dark-mode {
+        /* Dark mode overrides */
+        --primary: #4e73df;
+        --primary-light: #7e9ef7;
+        --primary-dark: #3a56b0;
+        --secondary: #6c757d;
+        --success: #1cc88a;
+        --info: #36b9cc;
+        --warning: #f6c23e;
+        --danger: #e74a3b;
+        --light: #2a2f3d;         /* Dark background */
+        --dark: #d1d3e2;          /* Light text */
+        --card: #2a2f3d;
+        --surface: #1f2330;
+        --bg: #1a1d28;
+        --text: #e1e5f2;
+        --text-secondary: #a0a8c0;
+    }
 
-								</tr>
-								{% endfor %}
+    /* Counters Section */
+    .counters-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
 
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-  <br><br><br><br><br><br>
+    .counter {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        background: white;
+    }
 
-	</div>
+    .dark-mode .counter {
+        background: var(--card);
+    }
+
+    .counter:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+
+    .counter-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .counter-content h3 {
+        margin: 0 0 5px 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .dark-mode .counter-content h3 {
+        color: var(--text);
+    }
+
+    .counter-content p {
+        margin: 0;
+        color: var(--secondary);
+        font-size: 0.95rem;
+    }
+
+    /* Color Themes */
+    .bg-primary .counter-icon {
+        background: var(--primary);
+    }
+    .bg-warning .counter-icon {
+        background: var(--warning);
+    }
+    .bg-success .counter-icon {
+        background: var(--success);
+    }
+    .bg-info .counter-icon {
+        background: var(--info);
+    }
+    .bg-danger .counter-icon {
+        background: var(--danger);
+    }
+
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .dark-mode .card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: var(--light);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .dark-mode .card-header {
+        background: var(--surface);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .card-header h3 {
+        margin: 0;
+        color: var(--primary);
+        font-size: 1.3rem;
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    /* Table Styles */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--dark);
+    }
+
+    .dark-mode table {
+        color: var(--text);
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .dark-mode th,
+    .dark-mode td {
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    th {
+        background: var(--light);
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .dark-mode th {
+        background: var(--surface);
+    }
+
+    tr:hover {
+        background: rgba(78, 115, 223, 0.05);
+    }
+
+    .dark-mode tr:hover {
+        background: rgba(78, 115, 223, 0.1);
+    }
+
+    /* Form Styles */
+    .problem-cost-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--dark);
+    }
+
+    .dark-mode .form-group label {
+        color: var(--text);
+    }
+
+    .problem-cost-form input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: white;
+        color: var(--dark);
+    }
+
+    .dark-mode .problem-cost-form input {
+        background: var(--surface);
+        border-color: var(--surface);
+        color: var(--text);
+    }
+
+    .btn-submit {
+        background: var(--primary);
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+        background: var(--primary-dark);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .counters-section {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .counters-section {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function(){
-  $("#Search").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $("#Search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
-  });
-  $("#Search1").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable1 tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $("#Search1").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable1 tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
-  });
 });
 </script>
+
 {% endblock content %}

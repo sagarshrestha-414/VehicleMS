@@ -1,84 +1,178 @@
 {% extends 'vehicle/adminbase.html' %}
 {% load widget_tweaks %}
-
-
-
-
+{% load static %}
 {% block content %}
 
-<head>
-  <style media="screen">
-    a:link {
-      text-decoration: none;
-    }
-
-    .note {
-      text-align: center;
-      height: 80px;
-      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
-      color: #fff;
-      font-weight: bold;
-      line-height: 80px;
-    }
-
-    .form-content {
-      padding: 5%;
-      border: 1px solid #ced4da;
-      margin-bottom: 2%;
-    }
-
-    .form-control {
-      border-radius: 1.5rem;
-    }
-
-    .btnSubmit {
-      border: none;
-      border-radius: 1.5rem;
-      padding: 1%;
-      width: 20%;
-      cursor: pointer;
-      background: #0062cc;
-      color: #fff;
-    }
-    .xyz{
-      
-      display: table;
-      margin-right: auto;
-      margin-left: auto;
-            }
-  </style>
-
- 
-</head>
-<br><br><br><br>
-<form method="post"  autocomplete="off">
-  {% csrf_token %}
-  <div class="container register-form">
-     
-    <div class="form xyz">
-      
-
-      <div class="form-content">
-        <div class="note">
-            <p>PLEASE ENTER DATE TO CHECK ATTENDANCE</p>
-          </div>
-        <div class="row">
-            
-          <div class="col-md-12">
-            <div class="form-group">
-              {% render_field form.date class="form-control" placeholder="Enter date mm/dd/yyyy" %}
+<div class="dashboard-container">
+    <div class="date-selection">
+        <div class="card">
+            <div class="card-header">
+                <div class="header-content">
+                    <h3>Check Attendance by Date</h3>
+                </div>
             </div>
-
-          </div>
-
+            <div class="card-content">
+                <form method="post" autocomplete="off" class="attendance-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="form-message">
+                            <p>Please select a date to view attendance records</p>
+                        </div>
+                        <div class="date-input-container">
+                            {% render_field form.date class="form-control date-input" placeholder="Select date" type="date" %}
+                            <i class="fas fa-calendar-alt calendar-icon"></i>
+                        </div>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-search"></i> View Attendance
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <button type="submit" class="btnSubmit">Submit</button>
-      </div>
     </div>
-  </div>
+</div>
 
-</form>
+<!-- Add Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+<style>
+    /* Date Selection Section */
+    .date-selection {
+        padding: 30px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .dark-mode .card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .card-header {
+        padding: 15px 20px;
+        background: var(--light);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .card-header {
+        background: var(--surface);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        color: var(--primary);
+        font-size: 1.3rem;
+    }
+    
+    .card-content {
+        padding: 30px;
+    }
+    
+    /* Form Styles */
+    .attendance-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-message {
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--text-secondary);
+        font-size: 1rem;
+    }
+    
+    .date-input-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    
+    .date-input {
+        width: 100%;
+        padding: 12px 15px 12px 40px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+    }
+    
+    .dark-mode .date-input {
+        background-color: var(--card);
+        border-color: var(--surface);
+        color: var(--text);
+    }
+    
+    .calendar-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background-color: #4e73df;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .btn-submit:hover {
+        background-color: #3a5ccc;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .dark-mode .btn-submit {
+        background-color: #4e73df;
+    }
+    
+    .dark-mode .btn-submit:hover {
+        background-color: #3a5ccc;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .date-selection {
+            padding: 15px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+    }
+</style>
 
+<!-- Add Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr(".date-input", {
+            dateFormat: "Y-m-d",
+            allowInput: true,
+            defaultDate: "today"
+        });
+    });
+</script>
 
 {% endblock content %}

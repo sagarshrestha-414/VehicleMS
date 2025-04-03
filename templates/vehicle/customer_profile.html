@@ -1,84 +1,208 @@
 {% extends 'vehicle/customerbase.html' %}
 {% load static %}
 {% block content %}
-<head>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <style media="screen">
-    img{
-    border-radius: 50%;
-  }
-  .center {
-    margin: auto;
-    width: 60%;
-  }
-  .button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  width: 200px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
 
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button:hover span {
-  padding-right: 25px;
-}
-
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.button2 {
-  background-color: white;
-  color: black;
-  border: 2px solid #008CBA;
-}
-
-.button2:hover {
-  background-color: #008CBA;
-  color: white;
-}
-
-  </style>
-</head>
-
-<br><br><br><br><br>
-<div class="center">
-  <img style="width:200px; height:200px; margin-left:200px;" src="{%static customer.profile_pic.url%}" alt="">
-  <div class="w3-panel w3-blue">
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Name : {{customer}}</b></h3>
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Mobile : {{customer.mobile}}</b></h3>
-
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Address : {{customer.address}}</b></h3>
-  </div>
+<div class="dashboard-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card profile-card">
+                <div class="profile-header">
+                    <div class="profile-image-container">
+                        <img src="{% static customer.profile_pic.url %}" alt="Profile Picture" class="profile-image">
+                    </div>
+                    <h2 class="profile-name">{{customer}}</h2>
+                    <p class="profile-title">Customer Profile</p>
+                </div>
+                
+                <div class="card-content profile-details">
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-mobile-alt"></i> Mobile:
+                        </span>
+                        <span class="detail-value">{{customer.mobile}}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fas fa-map-marker-alt"></i> Address:
+                        </span>
+                        <span class="detail-value">{{customer.address}}</span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="/edit-customer-profile" class="btn-edit-profile">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div style="text-align: center;">
-  <a href="/edit-customer-profile"><button class="button" ><span>Edit Profile </span></button></a>
-</div>
+<style>
+    /* Main Container */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    /* Profile Card */
+    .profile-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Profile Header */
+    .profile-header {
+        text-align: center;
+        padding: 30px 20px 20px;
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        color: white;
+    }
+    
+    .profile-image-container {
+        margin: 0 auto 15px;
+        width: 150px;
+        height: 150px;
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .profile-name {
+        margin: 10px 0 5px;
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+    
+    .profile-title {
+        margin: 0;
+        opacity: 0.8;
+        font-size: 1rem;
+    }
+    
+    /* Profile Details */
+    .profile-details {
+        padding: 25px 30px;
+    }
+    
+    .detail-item {
+        display: flex;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+    
+    .detail-label {
+        flex: 0 0 120px;
+        font-weight: 600;
+        color: #4361ee;
+    }
+    
+    .detail-label i {
+        margin-right: 8px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .detail-value {
+        flex: 1;
+        color: #555;
+    }
+    
+    /* Edit Button */
+    .profile-actions {
+        padding: 0 30px 30px;
+        text-align: center;
+    }
+    
+    .btn-edit-profile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #4361ee;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-edit-profile:hover {
+        background-color: #3a0ca3;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(67, 97, 238, 0.3);
+    }
+    
+    .btn-edit-profile i {
+        margin-right: 8px;
+    }
+    
+    /* Dark Mode */
+    .dark-mode .profile-card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .detail-value {
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .btn-edit-profile {
+        background-color: #4cc9f0;
+    }
+    
+    .dark-mode .btn-edit-profile:hover {
+        background-color: #4895ef;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .profile-image-container {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+        }
+        
+        .detail-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .detail-label {
+            margin-bottom: 5px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-header {
+            padding: 20px 15px 15px;
+        }
+        
+        .profile-details {
+            padding: 20px;
+        }
+        
+        .profile-actions {
+            padding: 0 20px 20px;
+        }
+    }
+</style>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

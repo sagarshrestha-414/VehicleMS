@@ -1,84 +1,305 @@
 {% extends 'vehicle/mechanicbase.html' %}
 {% load static %}
 {% block content %}
-<head>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <style media="screen">
-    img{
-    border-radius: 50%;
-  }
-  .center {
-    margin: auto;
-    width: 60%;
-  }
-  .button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  width: 200px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
 
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button:hover span {
-  padding-right: 25px;
-}
-
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.button2 {
-  background-color: white;
-  color: black;
-  border: 2px solid #008CBA;
-}
-
-.button2:hover {
-  background-color: #008CBA;
-  color: white;
-}
-
-  </style>
-</head>
-
-<br><br><br><br><br>
-<div class="center">
-  <img style="width:200px; height:200px; margin-left:200px;" src="{%static mechanic.profile_pic.url%}" alt="">
-  <div class="w3-panel w3-blue">
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Name : {{mechanic}}</b></h3>
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Mobile : {{mechanic.mobile}}</b></h3>
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Skill : {{mechanic.skill}}</b></h3>
-    <h3 class="w3-text-orange" style="text-shadow:1px 1px 0 #444"><b>Address : {{mechanic.address}}</b></h3>
-  </div>
+<div class="dashboard-container">
+    <div class="profile-card">
+        <!-- Profile Header Section -->
+        <div class="profile-header">
+            <div class="profile-image-container">
+                <img src="{% static mechanic.profile_pic.url %}" alt="Profile Picture" class="profile-image">
+            </div>
+            
+            <div class="profile-status">
+                <span class="status-indicator active"></span>
+                <span>Active Mechanic</span>
+            </div>
+            
+            <div class="profile-info">
+                <h2 class="profile-name">{{mechanic}}</h2>
+                <p class="profile-title">{{mechanic.skill}} Specialist</p>
+            </div>
+        </div>
+        
+        <!-- Profile Details Section -->
+        <div class="profile-details">
+            <div class="detail-item">
+                <span class="detail-icon">
+                    <i class="fas fa-phone"></i>
+                </span>
+                <div class="detail-content">
+                    <span class="detail-label">Mobile</span>
+                    <span class="detail-value">{{mechanic.mobile}}</span>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </span>
+                <div class="detail-content">
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value">{{mechanic.address}}</span>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-icon">
+                    <i class="fas fa-tools"></i>
+                </span>
+                <div class="detail-content">
+                    <span class="detail-label">Specialization</span>
+                    <span class="detail-value">{{mechanic.skill}}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Actions Section -->
+        <div class="profile-actions">
+            <a href="/edit-mechanic-profile" class="btn-edit-profile">
+                <i class="fas fa-user-edit"></i> Edit Profile
+            </a>
+        </div>
+    </div>
 </div>
 
-<div style="text-align: center;">
-  <a href="/edit-mechanic-profile"><button class="button" ><span>Edit Profile </span></button></a>
-</div>
+<style>
+    /* Main Container */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+    }
+    
+    /* Profile Card */
+    .profile-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 600px;
+        overflow: hidden;
+    }
+    
+    /* Profile Header */
+    .profile-header {
+        text-align: center;
+        padding: 40px 20px 20px;
+        background: linear-gradient(135deg, #3a0ca3 0%, #7209b7 100%);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .profile-image-container {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
+    }
+    
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .profile-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        background: rgba(255,255,255,0.1);
+        padding: 6px 12px;
+        border-radius: 20px;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    
+    .status-indicator.active {
+        background: #4ade80;
+    }
+    
+    .profile-info {
+        margin-top: 10px;
+    }
+    
+    .profile-name {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+    
+    .profile-title {
+        margin: 5px 0 0;
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+    
+    /* Profile Details */
+    .profile-details {
+        padding: 30px;
+    }
+    
+    .detail-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 15px;
+    }
+    
+    .detail-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(59, 130, 246, 0.1);
+        color: #3a0ca3;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .detail-content {
+        flex: 1;
+        text-align: left;
+    }
+    
+    .detail-label {
+        display: block;
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 3px;
+    }
+    
+    .detail-value {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    /* Edit Button */
+    .profile-actions {
+        padding: 0 30px 30px;
+        text-align: center;
+    }
+    
+    .btn-edit-profile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #3a0ca3;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(58, 12, 163, 0.2);
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-edit-profile:hover {
+        background: #7209b7;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(58, 12, 163, 0.3);
+    }
+    
+    .btn-edit-profile i {
+        margin-right: 8px;
+    }
+    
+    /* Dark Mode Support */
+    .dark-mode .profile-card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .profile-header {
+        background: linear-gradient(135deg, #252a3a 0%, #3a0ca3 100%);
+    }
+    
+    .dark-mode .detail-value {
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .detail-label {
+        color: #a0a8c0;
+    }
+    
+    .dark-mode .detail-icon {
+        background: rgba(76, 201, 240, 0.1);
+        color: #4cc9f0;
+    }
+    
+    .dark-mode .btn-edit-profile {
+        background: #4cc9f0;
+        box-shadow: 0 4px 6px rgba(76, 201, 240, 0.2);
+    }
+    
+    .dark-mode .btn-edit-profile:hover {
+        background: #3a86ff;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .profile-header {
+            padding: 30px 20px 15px;
+        }
+        
+        .profile-image-container {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+        }
+        
+        .profile-details {
+            padding: 25px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-header {
+            padding: 25px 15px 10px;
+        }
+        
+        .profile-image-container {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .profile-details {
+            padding: 20px;
+        }
+        
+        .detail-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-edit-profile {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

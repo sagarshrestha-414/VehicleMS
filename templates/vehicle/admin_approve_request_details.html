@@ -1,59 +1,293 @@
 {% extends 'vehicle/adminbase.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-<head>
-  <style media="screen">
-    input[type=text], select,input[type=number] , textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+<div class="dashboard-container">
+    <div class="approve-request-form full-width-form">
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h3><i class="fas fa-check-circle"></i> Approve Request / Change Status</h3>
+            </div>
+            <div class="card-content">
+                <form method="post" class="status-update-form">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <!-- Repair Cost -->
+                        <div class="form-group">
+                            <label for="cost"><i class="fas fa-dollar-sign"></i> Repair Cost</label>
+                            <div class="input-with-icon full-width-input">
+                                <span class="currency-symbol">₹</span>
+                                {% render_field adminenquiry.cost class="form-control" placeholder="Enter repair cost" %}
+                            </div>
+                        </div>
 
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+                        <!-- Assign Mechanic -->
+                        <div class="form-group">
+                            <label for="mechanic"><i class="fas fa-user-cog"></i> Assign Mechanic</label>
+                            {% render_field adminenquiry.mechanic class="form-control full-width-select" %}
+                        </div>
 
+                        <!-- Status Update -->
+                        <div class="form-group">
+                            <label for="status"><i class="fas fa-sync-alt"></i> Status</label>
+                            {% render_field adminenquiry.status class="form-control full-width-select" %}
+                        </div>
+                    </div>
 
-  </style>
-
-
-</head>
-
-<br><br><br><br><br>
-<h3 style="text-align:center;">APPROVE REQUEST OR CHANGE STATUS</h3>
-<div>
-  <form method="post" style="margin-left:200px;margin-right:200px;">
-      {% csrf_token %}
-
-    <label for="cost">Repair Cost</label>
-    {% render_field adminenquiry.cost class="form-control" placeholder="Repair Cost" %}
-
-    <label for="mechanic">Assign Mechanic</label>
-    {% render_field adminenquiry.mechanic class="form-control"  %}
-
-    <label for="status">Status</label>
-    {% render_field adminenquiry.status class="form-control" %}
-
-    <input type="submit" value="Submit">
-  </form>
+                    <div class="form-footer">
+                        <button type="submit" class="btn-submit full-width-btn">
+                            <i class="fas fa-save"></i> Update Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+<style>
+    /* Full Width Adjustments */
+    .full-width-form {
+        padding: 30px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .full-width-card {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .full-width-input {
+        width: 100%;
+    }
+    
+    .full-width-select {
+        width: 100%;
+    }
+    
+    .full-width-btn {
+        width: 100%;
+    }
+    
+    /* Approve Request Form Section */
+    .approve-request-form {
+        padding: 30px;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .dark-mode .card {
+        background: #2c3e50;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .card-header {
+        padding: 25px;
+        background: #4CAF50;
+        color: white;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode .card-header {
+        background: #388E3C;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .card-content {
+        padding: 35px;
+    }
+    
+    /* Form Styles */
+    .status-update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .form-group {
+        margin-bottom: 0;
+    }
+    
+    label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #333;
+    }
+    
+    .dark-mode label {
+        color: #f8f9fa;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 14px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+    
+    .dark-mode .form-control {
+        background-color: #34495e;
+        border-color: #3d566e;
+        color: #f8f9fa;
+    }
+    
+    .dark-mode .form-control:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+    }
+    
+    /* Currency Input */
+    .input-with-icon {
+        position: relative;
+    }
+    
+    .currency-symbol {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 600;
+        font-size: 1rem;
+        color: #555;
+    }
+    
+    .dark-mode .currency-symbol {
+        color: #d1d1d1;
+    }
+    
+    .input-with-icon .form-control {
+        padding-left: 45px;
+    }
+    
+    /* Select Dropdown Styling */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .btn-submit:hover {
+        background-color: #43A047;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+    
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .card-header h3 {
+            font-size: 1.4rem;
+        }
+        
+        .card-content {
+            padding: 30px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .full-width-form {
+            padding: 20px;
+        }
+        
+        .card-header {
+            padding: 20px;
+        }
+        
+        .form-grid {
+            gap: 20px;
+        }
+        
+        .btn-submit {
+            padding: 14px;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .full-width-form {
+            padding: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.3rem;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+        }
+        
+        .input-with-icon .form-control {
+            padding-left: 40px;
+        }
+        
+        .currency-symbol {
+            left: 15px;
+        }
+        
+        label {
+            font-size: 0.95rem;
+        }
+    }
+</style>
 
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

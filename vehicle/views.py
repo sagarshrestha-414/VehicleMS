@@ -234,21 +234,37 @@ def admin_add_customer_view(request):
 
 @login_required(login_url='adminlogin')
 def admin_view_customer_enquiry_view(request):
-    enquiry=models.Request.objects.all().order_by('-id')
-    array=[]
-    for e in enquiry:
-        array.append(e.cost)
-    sorted_array=insertion_sort_view(array)
-    enquiry_array=[]
-    for s in sorted_array:
-        for e in enquiry:
-            if s==e.cost:
-                enquiry_array.append(e)
-    customers=[]
-    for enq in enquiry_array:
-        customer=models.Customer.objects.get(id=enq.customer_id)
-        customers.append(customer)
-    return render(request,'vehicle/admin_view_customer_enquiry.html',{'data':zip(customers,enquiry_array)})
+    # Get all enquiries with their customers in one query
+    enquiries = models.Request.objects.all().select_related('customer').order_by('-id')
+    
+    # Handle None values in sorting by converting them to 0 or a large number
+    sorted_enquiries = sorted(
+        enquiries,
+        key=lambda x: x.cost if x.cost is not None else 0,
+        reverse=True
+    )
+    
+    # Prepare the data for template
+    data = [(e.customer, e) for e in sorted_enquiries]
+    
+    return render(request, 'vehicle/admin_view_customer_enquiry.html', {'data': data})
+# @login_required(login_url='adminlogin')
+# def admin_view_customer_enquiry_view(request):
+#     enquiry=models.Request.objects.all().order_by('-id')
+#     array=[]
+#     for e in enquiry:
+#         array.append(e.cost)
+#     sorted_array=insertion_sort_view(array)
+#     enquiry_array=[]
+#     for s in sorted_array:
+#         for e in enquiry:
+#             if s==e.cost:
+#                 enquiry_array.append(e)
+#     customers=[]
+#     for enq in enquiry_array:
+#         customer=models.Customer.objects.get(id=enq.customer_id)
+#         customers.append(customer)
+#     return render(request,'vehicle/admin_view_customer_enquiry.html',{'data':zip(customers,enquiry_array)})
 
 
 @login_required(login_url='adminlogin')

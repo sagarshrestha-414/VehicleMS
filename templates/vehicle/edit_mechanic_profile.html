@@ -1,66 +1,262 @@
 {% extends 'vehicle/mechanicbase.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-<head>
-  <style media="screen">
-    input[type=text], select,input[type=number] ,input[type=password], textarea{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
 
-  input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+<div class="dashboard-container">
+    <div class="mechanic-profile-edit">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-user-edit"></i> Edit Your Profile</h3>
+            </div>
+            <div class="card-content">
+                <form method="post" enctype="multipart/form-data" class="profile-form">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <!-- Personal Information -->
+                        <div class="form-group">
+                            <label for="first_name"><i class="fas fa-user"></i> First Name</label>
+                            {% render_field userForm.first_name class="form-control" placeholder="Enter first name" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name"><i class="fas fa-user"></i> Last Name</label>
+                            {% render_field userForm.last_name class="form-control" placeholder="Enter last name" %}
+                        </div>
 
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+                        <!-- Contact Information -->
+                        <div class="form-group">
+                            <label for="mobile"><i class="fas fa-phone"></i> Mobile</label>
+                            {% render_field mechanicForm.mobile class="form-control" placeholder="Enter mobile number" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="address"><i class="fas fa-map-marker-alt"></i> Address</label>
+                            {% render_field mechanicForm.address class="form-control" placeholder="Enter your address" %}
+                        </div>
 
+                        <!-- Professional Information -->
+                        <div class="form-group">
+                            <label for="skill"><i class="fas fa-tools"></i> Skills</label>
+                            {% render_field mechanicForm.skill class="form-control" placeholder="List your skills" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="username"><i class="fas fa-user-circle"></i> Username</label>
+                            {% render_field userForm.username class="form-control" placeholder="Choose username" %}
+                        </div>
 
-  </style>
+                        <!-- Account Security -->
+                        <div class="form-group">
+                            <label for="password"><i class="fas fa-lock"></i> Password</label>
+                            {% render_field userForm.password class="form-control" placeholder="Set new password" type="password" %}
+                        </div>
 
+                        <!-- Profile Picture -->
+                        <div class="form-group full-width">
+                            <label for="profile_pic"><i class="fas fa-camera"></i> Profile Picture</label>
+                            <div class="file-upload-wrapper">
+                                {% render_field mechanicForm.profile_pic class="form-control file-upload" %}
+                                <div class="upload-preview">
+                                    <i class="fas fa-user-circle default-avatar"></i>
+                                    <span class="upload-text">Click to upload photo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-</head>
-
-<br><br><br><br><br>
-<h1 style="text-align:center;color:blue;">Edit Your Profile</h1>
-<div>
-  <form method="post"  enctype="multipart/form-data" style="margin-left:200px;margin-right:200px;">
-      {% csrf_token %}
-        <label for="first_name">First Name</label>
-        {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
-        <label for="last_name">Last Name</label>
-        {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
-          <label for="mobile">Mobile</label>
-          {% render_field mechanicForm.mobile class="form-control" placeholder="Mobile" %}
-            <label for="address">Address</label>
-          {% render_field mechanicForm.address class="form-control" placeholder="Address" %}
-          <label for="skill">Skills</label>
-          {% render_field mechanicForm.skill class="form-control" placeholder="Skills" %}
-        <label for="username">Username</label>
-        {% render_field userForm.username class="form-control" placeholder="Username" %}
-          <label for="password">Password</label>
-        {% render_field userForm.password class="form-control" placeholder="Password" %} <br><br>
-        <label for="profile_pic">Profile Picture</label>
-          {% render_field mechanicForm.profile_pic class="form-control" placeholder="Profile Picture" %}
-<br><br>
-    <input type="submit" value="Edit Your Profile">
-  </form>
+                    <div class="form-footer">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+<style>
+    /* Mechanic Profile Edit Section */
+    .mechanic-profile-edit {
+        padding: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .dark-mode .card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .card-header {
+        padding: 20px;
+        background: var(--primary);
+        color: white;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .card-header {
+        background: var(--primary-dark);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .card-content {
+        padding: 30px;
+    }
+    
+    /* Form Styles */
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 0;
+    }
+    
+    .full-width {
+        grid-column: 1 / -1;
+    }
+    
+    label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text);
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+    
+    .dark-mode .form-control {
+        background-color: var(--card);
+        border-color: var(--surface);
+        color: var(--text);
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(78, 115, 223, 0.2);
+        outline: none;
+    }
+    
+    /* File Upload Styling */
+    .file-upload-wrapper {
+        position: relative;
+    }
+    
+    .file-upload {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+    
+    .upload-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border: 1px dashed #ddd;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        text-align: center;
+        transition: all 0.3s;
+    }
+    
+    .dark-mode .upload-preview {
+        background-color: var(--card);
+        border-color: var(--surface);
+    }
+    
+    .default-avatar {
+        font-size: 2.5rem;
+        color: var(--text-secondary);
+        margin-bottom: 10px;
+    }
+    
+    .upload-text {
+        color: var(--text-secondary);
+    }
+    
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .btn-submit:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Responsive Adjustments */
+    @media (min-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .mechanic-profile-edit {
+            padding: 15px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .upload-text {
+            font-size: 0.8rem;
+        }
+    }
+</style>
 
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock content %}

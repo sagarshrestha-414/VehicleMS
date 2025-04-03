@@ -2,52 +2,372 @@
 {% load static %}
 {% block content %}
 
+<div class="dashboard-container">
+    <!-- Counters Section -->
+    <div class="counters-section">
+        <div class="counter bg-teal">
+            <p><i class="fas fa-tasks"></i></p>
+            <h3>{{new_work_assigned}}</h3>
+            <p>New Work Assigned</p>
+        </div>
+        <div class="counter bg-amber">
+            <p><i class="fas fa-spinner"></i></p>
+            <h3>{{work_in_progress}}</h3>
+            <p>Work In Progress</p>
+        </div>
+        <div class="counter bg-emerald">
+            <p><i class="fas fa-check-circle"></i></p>
+            <h3>{{work_completed}}</h3>
+            <p>Work Completed</p>
+        </div>
+        <div class="counter bg-rose">
+            <p><i class="fas fa-dollar-sign"></i></p>
+            <h3>{{salary}}</h3>
+            <p>Salary</p>
+        </div>
+    </div>
 
-	<div class="wrapper">
+    <!-- Recent Work Section -->
+    <div class="work-section">
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Work Assigned</h3>
+                <div class="search-container">
+                    <form class="search-form">
+                        <input type="text" name="Search" id="Search2" placeholder="Search work...">
+                        <button type="button"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table id="myTable2">
+                        <thead>
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Problem</th>
+                                <th>Assigned Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in recent_work %}
+                            <tr>
+                                <td>{{work.vehicle_name}} ({{work.vehicle_no}})</td>
+                                <td>{{work.problem_description}}</td>
+                                <td>{{work.date}}</td>
+                                <td>
+                                    <span class="status-badge status-{{work.status|lower}}">{{work.status}}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    /* Base Styles */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    /* New Color Palette - Better for Dark Mode */
+    .bg-teal {
+        background: rgba(20, 184, 166, 0.1);
+        color: rgb(20, 184, 166);
+    }
+    
+    .bg-amber {
+        background: rgba(245, 158, 11, 0.1);
+        color: rgb(245, 158, 11);
+    }
+    
+    .bg-emerald {
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(16, 185, 129);
+    }
+    
+    .bg-rose {
+        background: rgba(244, 63, 94, 0.1);
+        color: rgb(244, 63, 94);
+    }
+    
+    /* Primary Color for Headers/Accents */
+    .primary-color {
+        color: rgb(59, 130, 246);
+    }
+    
+    /* Counters Section */
+    .counters-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .counter {
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .counter:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .counter i {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .counter h3 {
+        font-size: 1.8rem;
+        margin: 10px 0;
+        font-weight: 600;
+    }
+    
+    .counter p {
+        margin: 0;
+        color: #666;
+    }
+    
+    /* Work Section */
+    .work-section {
+        width: 100%;
+    }
+    
+    .card {
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background: white;
+    }
+    
+    .card-header {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        color: rgb(59, 130, 246); /* Blue-500 */
+        font-size: 1.5rem;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+    
+    /* Search Bar */
+    .search-container {
+        margin: 10px 0;
+    }
+    
+    .search-form {
+        display: flex;
+        max-width: 400px;
+    }
+    
+    .search-form input {
+        flex: 1;
+        padding: 12px 20px;
+        border: 1px solid #ddd;
+        border-radius: 25px 0 0 25px;
+        font-size: 1rem;
+        outline: none;
+    }
+    
+    .search-form button {
+        padding: 0 20px;
+        background: rgb(59, 130, 246);
+        color: white;
+        border: none;
+        border-radius: 0 25px 25px 0;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    /* Table Styles */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: rgb(59, 130, 246);
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: rgb(245, 158, 11);
+    }
+    
+    .status-approved {
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(16, 185, 129);
+    }
+    
+    .status-in-progress {
+        background: rgba(59, 130, 246, 0.1);
+        color: rgb(59, 130, 246);
+    }
+    
+    .status-completed {
+        background: rgba(156, 163, 175, 0.1);
+        color: rgb(156, 163, 175);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .search-form {
+            width: 100%;
+            margin-top: 15px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .counters-section {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        
+        .counter {
+            padding: 20px;
+        }
+        
+        .counter i {
+            font-size: 2rem;
+        }
+        
+        .counter h3 {
+            font-size: 1.5rem;
+        }
+        
+        th, td {
+            padding: 12px 10px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .counters-section {
+            grid-template-columns: 1fr;
+        }
+        
+        .counter {
+            padding: 15px;
+        }
+        
+        .search-form input {
+            padding: 10px 15px;
+        }
+    }
+    
+    /* Dark Mode Support - Improved Contrast */
+    .dark-mode .counter {
+        background: rgba(255,255,255,0.05);
+    }
+    
+    .dark-mode .counter:hover {
+        background: rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode .counter p {
+        color: #a0a8c0;
+    }
+    
+    .dark-mode .card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .card-header {
+        background: #1e2130;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode th {
+        background: #1e2130;
+    }
+    
+    .dark-mode td, 
+    .dark-mode th {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode .search-form input {
+        background: #2f3545;
+        border-color: #3a4052;
+        color: white;
+    }
+    
+    /* Dark mode status badges */
+    .dark-mode .status-pending {
+        background: rgba(245, 158, 11, 0.2);
+    }
+    
+    .dark-mode .status-approved {
+        background: rgba(16, 185, 129, 0.2);
+    }
+    
+    .dark-mode .status-in-progress {
+        background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .dark-mode .status-completed {
+        background: rgba(156, 163, 175, 0.2);
+    }
+</style>
 
-		<div class="row">
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-tasks"></i>
-					</p>
-					<h3>{{new_work_assigned}}</h3>
-					<p>New Work Assigned</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-spinner"></i>
-					</p>
-					<h3>{{work_in_progress}}</h3>
-					<p>Work In Progress</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-check-circle"></i>
-					</p>
-					<h3>{{work_completed}}</h3>
-					<p>Work Completed</p>
-				</div>
-			</div>
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-rupee-sign"></i>
-					</p>
-					<h3>{{salary}}</h3>
-					<p>Salary</p>
-				</div>
-			</div>
-		</div><br><br><br><br>
-		
-	 <br><br><br><br><br><br><br><br><br><br><br><br>
-		</div>
-
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#Search2").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable2 tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>
 
 {% endblock content %}

@@ -1,68 +1,325 @@
 {% extends 'vehicle/adminbase.html' %}
-{% block content %}
 {% load static %}
+{% block content %}
 
-	<div class="wrapper">
+<div class="dashboard-container">
+    <div class="mechanic-management">
+        <div class="card">
+            <div class="card-header">
+                <div class="header-content">
+                    <h3>Mechanic Management</h3>
+                    <div class="search-container">
+                        <input type="text" id="Search7" placeholder="Search mechanics...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="table-container">
+                    <table id="myTable7">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Profile</th>
+                                <th>Mobile</th>
+                                <th>Address</th>
+                                <th>Skills</th>
+                                <th>Salary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in mechanics %}
+                            <tr>
+                                <td>{{m.get_name}}</td>
+                                <td>
+                                    <div class="profile-pic">
+                                        <img src="{% static m.profile_pic.url %}" alt="{{m.get_name}}">
+                                    </div>
+                                </td>
+                                <td>{{m.mobile}}</td>
+                                <td class="address-cell">{{m.address}}</td>
+                                <td class="skill-cell">{{m.skill}}</td>
+                                <td class="salary-cell">₹{{m.salary}}</td>
+                                <td class="actions">
+                                    <a href="{% url 'update-mechanic' m.id %}" class="btn-action btn-edit" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'delete-mechanic' m.id %}" class="btn-action btn-delete" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    /* Mechanic Management Section */
+    .mechanic-management {
+        padding: 30px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* Card Styles */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        width: 100%;
+    }
+    
+    .dark-mode .card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .card-header {
+        padding: 15px 20px;
+        background: var(--light);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .dark-mode .card-header {
+        background: var(--surface);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        color: var(--primary);
+        font-size: 1.3rem;
+        white-space: nowrap;
+    }
+    
+    /* Search Container */
+    .search-container {
+        position: relative;
+        width: 250px;
+        min-width: 200px;
+        flex-grow: 1;
+    }
+    
+    .search-container input {
+        width: 100%;
+        padding: 10px 15px 10px 35px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        outline: none;
+        box-sizing: border-box;
+    }
+    
+    .dark-mode .search-container input {
+        background: var(--card);
+        border-color: var(--surface);
+        color: var(--text);
+    }
+    
+    .search-container i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+    }
+    
+    .card-content {
+        padding: 20px;
+        overflow-x: auto;
+    }
+    
+    /* Table Styles */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--dark);
+    }
+    
+    .dark-mode table {
+        color: var(--text);
+    }
+    
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode th,
+    .dark-mode td {
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    th {
+        background: var(--light);
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .dark-mode th {
+        background: var(--surface);
+    }
+    
+    tr:hover {
+        background: rgba(78, 115, 223, 0.05);
+    }
+    
+    .dark-mode tr:hover {
+        background: rgba(78, 115, 223, 0.1);
+    }
+    
+    /* Profile Picture */
+    .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Special Cells */
+    .address-cell {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .skill-cell {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .salary-cell {
+        font-weight: 600;
+        color: var(--success);
+    }
+    
+    /* Action Buttons */
+    .actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .btn-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    
+    .btn-edit {
+        color: var(--warning);
+        background: rgba(246, 194, 62, 0.1);
+    }
+    
+    .btn-edit:hover {
+        background: rgba(246, 194, 62, 0.2);
+        transform: scale(1.1);
+    }
+    
+    .btn-delete {
+        color: var(--danger);
+        background: rgba(231, 74, 59, 0.1);
+    }
+    
+    .btn-delete:hover {
+        background: rgba(231, 74, 59, 0.2);
+        transform: scale(1.1);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        th, td {
+            padding: 12px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .search-container {
+            width: 100%;
+        }
+        
+        .card-header h3 {
+            margin-bottom: 10px;
+        }
+        
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .actions {
+            gap: 10px;
+        }
+        
+        .btn-action {
+            width: 30px;
+            height: 30px;
+            font-size: 0.9rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .mechanic-management {
+            padding: 15px;
+        }
+        
+        table {
+            min-width: 100%;
+        }
+    }
+</style>
 
-		<div class="row">
-			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 style="color:red; text-align:center" >Mechanics
-						</h3>
-                        <form class="navbar-search">
-						<input type="text" name="Search" id="Search7" class="navbar-search-input" placeholder="What you looking for...">
-						<i class="fas fa-search"></i>
-						</form>
-					</div>
-					<div class="card-content">
-						<table id="myTable7">
-							<thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Profile Picture</th>
-                  <th>Mobile</th>
-                  <th>Address</th>
-                  <th>Skills</th>
-                  <th>Salary</th>
-                  <th>Update</th>
-                  <th>Delete</th>
-                </tr>
-							</thead>
-							<tbody>
-              {% for m in mechanics %}
-                <tr>
-                  <td> {{m.get_name}}</td>
-                  <td> <img src="{% static m.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-                  <td>{{m.mobile}}</td>
-                  <td>{{m.address}}</td>
-                  <td>{{m.skill}}</td>
-                  <td>{{m.salary}}</td>
-                  <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'update-mechanic' m.id  %}">&#9998;</a></td>
-                  <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'delete-mechanic' m.id  %}">&#10008;</a></td>
-                </tr>
-                {% endfor %}
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function(){
-  $("#Search7").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable7 tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $("#Search7").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable7 tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
-  });
-
 });
 </script>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	</div>
-	
+
 {% endblock content %}

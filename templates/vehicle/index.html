@@ -1,120 +1,336 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en" dir="ltr">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-	<link rel="icon" type="image/png" href="{% static "assets/AT-pro-logo.png" %}"/>
-
-
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static "fontawesome-free/css/all.min.css" %}">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <style media="screen">
-    .jumbotron {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      background-image: url('{% static "images/4.jpg" %}');
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-    .jumbotron h1 {
-      text-align: center;
-    }
-
-  </style>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair Garage - Vehicle Service Center</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/AT-pro-logo.png' %}"/>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    
+    <!-- Styles -->
+    <style>
+        :root {
+            --primary: #3a0ca3;
+            --primary-light: #7209b7;
+            --secondary: #f72585;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/4.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 60px 20px;
+            background: var(--light);
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: var(--primary);
+        }
+        
+        /* Problems Section */
+        .problems {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-form {
+            display: flex;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-button {
+            padding: 0 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+        }
+        
+        .problems-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .problems-table th, 
+        .problems-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .problems-table th {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .problems-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .problems-table tr:hover {
+            background: #f1f1f1;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-card h3 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                border-radius: 50px;
+                margin-bottom: 10px;
+            }
+            
+            .search-button {
+                border-radius: 50px;
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  {% include "vehicle/navbar.html" %}
-  <br><br>
-  <div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-  </div>
-
-<!--  {% include "vehicle/customer_mechanic_cards.html" %}-->
-  <div class="wrapper">
-
-
-		<div class="row">
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-users"></i>
-					</p>
-					<h3>{{total_customer}}</h3>
-					<p>Total Customer</p>
-				</div>
-			</div>
-
-			<div class="col-3 col-m-6 col-sm-6">
-				<div class="counter bg-primary">
-					<p>
-						<i class="fas fa-spinner"></i>
-					</p>
-					<h3>{{total_request}}</h3>
-					<p>Total Enquiry</p>
-				</div>
-			</div>
-
-		</div>
-	  <div class="row">
-			<div class="col-3 col-m-12 col-sm-12">
-
-					<p><center>
-						<i class="fas fa-question"></i>
-						</center>
-					</p>
-
-					<div class="card-header">
-
-					<h3 style="color:red;text-align:center" >Most Common Problems
-						</h3>
-					<form class="navbar-search">
-						<input type="text" name="Search" id="Search21" class="navbar-search-input" placeholder="What you looking for...">
-						<i class="fas fa-search"></i>
-						</form>
-					</div>
-					<div class="card-content">
-					<table id="myTable21" >
-							<thead>
-								<tr>
-
-									<th><center>Problem Description</center></th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for result in obj %}
-								<tr>
-
-									<td><center>{{result.problem_description}}</center></td>
-								</tr>
-								{% endfor %}
-
-							</tbody>
-						</table>
-				</div>
-				</div>
-
-	  </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("#Search21").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable21 tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    {% include "vehicle/navbar.html" %}
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Professional Vehicle Repairs & Maintenance</h1>
+            <p>Trusted by thousands of customers for quality service and expert mechanics</p>
+            <a href="#services" class="btn">Our Services</a>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>{{total_customer}}</h3>
+                    <p>Happy Customers</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-spinner"></i>
+                    <h3>{{total_request}}</h3>
+                    <p>Completed Services</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>50+</h3>
+                    <p>Vehicle Problems Solved</p>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3>4.9</h3>
+                    <p>Average Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Common Problems Section -->
+    <section class="problems" id="services">
+        <div class="section-header">
+            <h2>Common Vehicle Problems We Fix</h2>
+        </div>
+        
+        <div class="search-container">
+            <form class="search-form">
+                <input type="text" name="Search" id="Search21" class="search-input" placeholder="Search problems...">
+                <button type="button" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        
+        <table class="problems-table" id="myTable21">
+            <thead>
+                <tr>
+                    <th>Problem Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in obj %}
+                <tr>
+                    <td>{{result.problem_description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    
+    {% include "vehicle/footer.html" %}
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#Search21").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable21 tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
-  });
- });
-
-</script>
-  {% include "vehicle/footer.html" %}
+    </script>
 </body>
-
 </html>

@@ -1,57 +1,356 @@
 {% extends 'vehicle/mechanicbase.html' %}
 {% block content %}
 {% load static %}
-	
-	<div class="wrapper">
 
+<div class="dashboard-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Your Attendance Record</h3>
+                    <div class="search-container">
+                        <form class="search-form">
+                            <input type="text" name="Search" id="Search18" class="search-input" placeholder="Search dates...">
+                            <button type="button" class="search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="table-responsive">
+                        <table id="myTable18">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for w in attendaces %}
+                                <tr>
+                                    <td>{{w.date}}</td>
+                                    <td>
+                                        <span class="attendance-badge status-{{w.present_status|lower}}">
+                                            {{w.present_status}}
+                                        </span>
+                                    </td>
+                                    <td class="action-cell">
+                                        {% if not w.date|date:"Y-m-d" == today|date:"Y-m-d" %}
+                                        <span class="action-disabled">Mark Today</span>
+                                        {% else %}
+                                        <a href="{% url 'mechanic-mark-attendance' %}" class="btn-mark">
+                                            Mark Today
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Summary Stats -->
+                    <div class="attendance-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Present:</span>
+                            <span class="summary-value present">{{present_count}}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Absent:</span>
+                            <span class="summary-value absent">{{absent_count}}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Attendance Rate:</span>
+                            <span class="summary-value rate">{{attendance_rate}}%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-		<div class="row">
-			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 style="color:red; text-align:center" >Your Attendance
-						</h3>
-						<form class="navbar-search">
-						<input type="text" name="Search" id="Search18" class="navbar-search-input" placeholder="What you looking for...">
-						<i class="fas fa-search"></i>
-						</form>
-					</div>
-					<div class="card-content">
-						<table id="myTable18">
-							<thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Present/Absent</th>
-                  
-                </tr>
-							</thead>
-							<tbody>
-              {% for w in attendaces %}
-                <tr>
-                  <td> {{w.date}}</td>
-                  <td> {{w.present_status}}</td>
-                                  </tr>
-                {% endfor %}
+<style>
+    /* Main Container */
+    .dashboard-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    /* Card Styling */
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .card-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .card-header h3 {
+        margin: 0 0 15px 0;
+        color: rgb(59, 130, 246);
+        text-align: center;
+        flex: 1;
+        min-width: 100%;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+    
+    /* Search Bar */
+    .search-container {
+        margin: 0 auto;
+        max-width: 500px;
+        width: 100%;
+    }
+    
+    .search-form {
+        display: flex;
+    }
+    
+    .search-input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 25px 0 0 25px;
+        font-size: 0.9rem;
+    }
+    
+    .search-button {
+        padding: 0 20px;
+        background: rgb(59, 130, 246);
+        color: white;
+        border: none;
+        border-radius: 0 25px 25px 0;
+        cursor: pointer;
+    }
+    
+    /* Table Styling */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: rgb(59, 130, 246);
+    }
+    
+    /* Attendance Badges */
+    .attendance-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+        min-width: 80px;
+        text-align: center;
+    }
+    
+    .status-present {
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(16, 185, 129);
+    }
+    
+    .status-absent {
+        background: rgba(244, 63, 94, 0.1);
+        color: rgb(244, 63, 94);
+    }
+    
+    /* Action Buttons */
+    .action-cell {
+        text-align: center;
+    }
+    
+    .btn-mark {
+        display: inline-block;
+        padding: 6px 12px;
+        background: rgb(59, 130, 246);
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-mark:hover {
+        background: rgb(29, 78, 216);
+    }
+    
+    .action-disabled {
+        color: #999;
+        font-size: 0.85rem;
+    }
+    
+    /* Attendance Summary */
+    .attendance-summary {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .summary-item {
+        text-align: center;
+        padding: 10px;
+        min-width: 120px;
+    }
+    
+    .summary-label {
+        display: block;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .summary-value {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+    
+    .present {
+        color: rgb(16, 185, 129);
+    }
+    
+    .absent {
+        color: rgb(244, 63, 94);
+    }
+    
+    .rate {
+        color: rgb(59, 130, 246);
+    }
+    
+    /* Dark Mode Styles */
+    .dark-mode .card {
+        background: #252a3a;
+    }
+    
+    .dark-mode .card-header {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode th {
+        background: #1e2130;
+    }
+    
+    .dark-mode td, 
+    .dark-mode th {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .dark-mode .search-input {
+        background: #2f3545;
+        border-color: #3a4052;
+        color: white;
+    }
+    
+    .dark-mode .attendance-summary {
+        background: #1e2130;
+    }
+    
+    .dark-mode .summary-label {
+        color: #a0a8c0;
+    }
+    
+    .dark-mode .action-disabled {
+        color: #7a849e;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .card-header {
+            flex-direction: column;
+        }
+        
+        .card-header h3 {
+            margin-bottom: 15px;
+        }
+        
+        .search-container {
+            max-width: 100%;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        th, td {
+            padding: 12px 10px;
+            font-size: 0.9rem;
+        }
+        
+        .attendance-summary {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .summary-item {
+            margin-bottom: 15px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-header {
+            padding: 15px;
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+        
+        .search-form {
+            flex-direction: column;
+        }
+        
+        .search-input {
+            border-radius: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .search-button {
+            border-radius: 25px;
+            padding: 10px;
+        }
+    }
+</style>
 
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 $(document).ready(function(){
-  $("#Search18").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable18 tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $("#Search18").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable18 tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
-  });
- });
-
+});
 </script>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	</div>
 
 {% endblock content %}

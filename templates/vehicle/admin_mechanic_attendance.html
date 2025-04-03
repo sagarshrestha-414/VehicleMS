@@ -2,110 +2,166 @@
 {% load static %}
 {% block content %}
 
+<div class="dashboard-container">
+    <div class="attendance-management">
+        <div class="attendance-cards">
+            <div class="card attendance-card">
+                <div class="card-content">
+                    <a href="/admin-view-attendance" class="attendance-link">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>View Mechanic Attendance</h3>
+                        <p>Check and review attendance records</p>
+                    </a>
+                </div>
+            </div>
 
-
-<head>
-
-  <style type="text/css">
-    a:link {
-      text-decoration: none;
-    }
-
-    h6 {
-      color: white;
-      font-size: 0.90em;
-    }
-
-    .order-card {
-      color: #fff;
-    }
-
-    .bg-c-blue {
-      background: linear-gradient(45deg, #4099ff, #73b4ff);
-    }
-
-    .bg-c-green {
-      background: linear-gradient(45deg, #2ed8b6, #59e0c5);
-    }
-
-    .bg-c-yellow {
-      background: linear-gradient(45deg, #FFB64D, #ffcb80);
-    }
-
-    .bg-c-pink {
-      background: linear-gradient(45deg, #FF5370, #ff869a);
-    }
-
-
-    .card {
-      border-radius: 5px;
-      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-      border: none;
-      margin-bottom: 30px;
-      -webkit-transition: all 0.3s ease-in-out;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .card .card-block {
-      padding: 25px;
-    }
-
-    .order-card i {
-      font-size: 26px;
-    }
-
-    .f-left {
-      float: left;
-    }
-
-    .f-right {
-      float: right;
-    }
-    h6{
-      size:20;
-    }
-  </style>
-</head>
-
-<body>
-
-  <br><br><br><br><br>
-  <div style="margin-left:100px;" class="container">
-    <div class="row">
-      <div class="col-md-4 col-xl-6">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-view-attendance">
-              <h6 class="m-b-20">View Mechanic Attendance</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-eye f-left"></i></h2>
-            <br>
-          </div>
+            <div class="card attendance-card">
+                <div class="card-content">
+                    <a href="/admin-take-attendance" class="attendance-link">
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3>Take Mechanic Attendance</h3>
+                        <p>Record daily attendance</p>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="col-md-4 col-xl-6">
-        <div class="card bg-c-blue order-card">
-          <div class="card-block">
-            <a href="/admin-take-attendance">
-              <h6 class="m-b-20">Take Mechanic Attendance</h6>
-            </a>
-            <h2 class="text-right"><i class="fas fa-plus-circle f-left"></i></h2>
-            <br>
-          </div>
-        </div>
-      </div>
-
-
-
-
     </div>
+</div>
 
-  </div>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
+<style>
+    /* Attendance Management Section */
+    .attendance-management {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .attendance-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    /* Card Styles */
+    .attendance-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .dark-mode .attendance-card {
+        background: var(--card);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .attendance-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+    
+    .dark-mode .attendance-card:hover {
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+    
+    .card-content {
+        padding: 30px;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Attendance Link */
+    .attendance-link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    /* Card Icon */
+    .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: rgba(78, 115, 223, 0.1);
+    }
+    
+    .dark-mode .card-icon {
+        background: rgba(78, 115, 223, 0.2);
+    }
+    
+    .attendance-card h3 {
+        margin: 0 0 10px 0;
+        color: var(--primary);
+        font-size: 1.5rem;
+    }
+    
+    .attendance-card p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    /* Gradient Backgrounds */
+    .attendance-card:nth-child(1) .card-icon {
+        background: linear-gradient(45deg, #4099ff, #73b4ff);
+        color: white;
+    }
+    
+    .attendance-card:nth-child(2) .card-icon {
+        background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+        color: white;
+    }
+    
+    /* Hover Effects */
+    .attendance-card:nth-child(1):hover {
+        border-bottom: 3px solid #4099ff;
+    }
+    
+    .attendance-card:nth-child(2):hover {
+        border-bottom: 3px solid #2ed8b6;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .attendance-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .attendance-card h3 {
+            font-size: 1.3rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .attendance-management {
+            padding: 15px;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+        }
+    }
+</style>
 
-  </script>
-</body>
 {% endblock content %}

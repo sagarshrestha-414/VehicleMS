@@ -4,36 +4,113 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-  <style media="screen">
-    .jumbotron {
-      margin-bottom: 0px;
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Sent | Vehicle Management System</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #4CAF50;
+      --secondary-color: #388E3C;
     }
-
-    .jumbotron h1 {
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: 56px; /* Prevent navbar overlap */
+    }
+    
+    .success-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .success-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 3rem;
+      max-width: 800px;
+      width: 100%;
       text-align: center;
     }
+    
+    .success-icon {
+      color: var(--primary-color);
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .success-title {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+    
+    .success-message {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .home-btn {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    .home-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .success-card {
+        padding: 2rem;
+      }
+      
+      .success-icon {
+        font-size: 3rem;
+      }
+    }
   </style>
-
 </head>
 
 <body>
-
   {% include "vehicle/navbar.html" %}
-  <br><br>
-  <div class="jumbotron">
-    <h1 class="display-4">Your message sent successfully !</h1>
-    <p class="lead">We will respond to your feedback soon</p>
-    <hr class="my-4">
-    <p>Check other features of website !</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
-    </p>
+  
+  <div class="success-container">
+    <div class="success-card">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h1 class="success-title">Message Sent Successfully!</h1>
+      <p class="success-message">Thank you for your feedback. We'll respond to you as soon as possible.</p>
+      <hr class="my-4">
+      <p class="mb-4">In the meantime, feel free to explore other features of our website.</p>
+      <a class="btn btn-lg home-btn" href="/" role="button">
+        <i class="fas fa-home me-2"></i>Return to Home
+      </a>
+    </div>
   </div>
 
   {% include "vehicle/footer.html" %}
+  
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
