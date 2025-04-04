@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vehicle',
     'widget_tweaks',
+    'chatbot',
+    
 ]
 
 MIDDLEWARE = [
@@ -156,4 +158,9 @@ EMAIL_RECEIVING_USER = ['saagardhoju414@gmail.com']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
+
+CHATBOT_CONFIG = {
+    'AI_MODEL_PATH': os.path.join(BASE_DIR, 'chatbot/ai/models'),
+    'INTENTS_FILE': os.path.join(BASE_DIR, 'chatbot/ai/intents.json'),
+}
 

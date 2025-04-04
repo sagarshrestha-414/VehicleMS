@@ -32,7 +32,7 @@
                                 <td>{{c.get_name}}</td>
                                 <td>{{r.vehicle_name}}</td>
                                 <td class="problem-cell">{{r.problem_description}}</td>
-                                <td class="cost-cell">₹{{r.cost}}</td>
+                                <td class="cost-cell">${{r.cost}}</td>
                                 <td class="actions">
                                     <a href="{% url 'update-cost' r.id %}" class="btn-action btn-edit" title="Update Cost">
                                         <i class="fas fa-edit"></i>

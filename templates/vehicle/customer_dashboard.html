@@ -52,7 +52,7 @@
                             {% for p in pb %}
                             <tr>
                                 <td>{{p.ProblemDescription}}</td>
-                                <td>₹{{p.Cost}}</td>
+                                <td>${{p.Cost}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -62,7 +62,22 @@
         </div>
     </div>
 </div>
-
+<!-- {% include 'includes/chatbot_widget.html' %} -->
+<script>
+// Customer-specific chatbot enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-suggest when typing "status"
+    const inputField = document.getElementById('chatbot-input');
+    inputField.addEventListener('input', function() {
+        if(this.value.toLowerCase().includes('status')) {
+            const suggestion = document.createElement('div');
+            suggestion.className = 'alert alert-info p-2 mt-2';
+            suggestion.innerHTML = 'Tip: Ask "What\'s the status of my current request?"';
+            this.parentNode.parentNode.insertBefore(suggestion, this.parentNode.nextSibling);
+        }
+    });
+});
+</script>
 <style>
     /* Base Styles */
     body {

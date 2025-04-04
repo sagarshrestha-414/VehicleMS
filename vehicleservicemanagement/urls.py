@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.urls import path
 from vehicle import views
 from django.contrib.auth.views import LoginView,LogoutView
+from django.urls import path, include  # Make sure 'include' is imported
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -93,6 +94,8 @@ urlpatterns = [
     path('customer-delete-request/<int:pk>', views.customer_delete_request_view,name='customer-delete-request'),
     path('customer-view-approved-request',views.customer_view_approved_request_view,name='customer-view-approved-request'),
     path('customer-view-approved-request-invoice',views.customer_view_approved_request_invoice_view,name='customer-view-approved-request-invoice'),
+
+    path('chatbot/', include('chatbot.urls')),
 
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
     path('logout', LogoutView.as_view(template_name='vehicle/index.html'),name='logout'),

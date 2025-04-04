@@ -68,7 +68,31 @@
         </div>
     </div>
 </div>
-
+<!-- {% include 'includes/chatbot_widget.html' %} -->
+<script>
+// Mechanic-specific chatbot enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Add quick action buttons for mechanics
+    const messagesDiv = document.querySelector('.chatbot-messages');
+    const quickActions = document.createElement('div');
+    quickActions.className = 'quick-actions p-2';
+    quickActions.innerHTML = `
+        <p class="small mb-1">Quick Actions:</p>
+        <button class="btn btn-sm btn-info me-1" data-question="How do I update request status?">Update Status</button>
+        <button class="btn btn-sm btn-info me-1" data-question="Where are the repair manuals?">Manuals</button>
+        <button class="btn btn-sm btn-info" data-question="How to log parts usage?">Parts Log</button>
+    `;
+    messagesDiv.appendChild(quickActions);
+    
+    // Handle quick action clicks
+    document.querySelectorAll('[data-question]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.getElementById('chatbot-input').value = this.getAttribute('data-question');
+            document.getElementById('chatbot-send').click();
+        });
+    });
+});
+</script>
 <style>
     /* Base Styles */
     .dashboard-container {

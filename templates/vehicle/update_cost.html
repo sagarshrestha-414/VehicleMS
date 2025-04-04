@@ -13,9 +13,9 @@
                 <form method="post" class="cost-update-form">
                     {% csrf_token %}
                     <div class="form-group full-width-input-group">
-                        <label for="cost"><i class="fas fa-rupee-sign"></i> Repair Cost</label>
+                        <label for="cost"><i class="fas fa-dollar-sign"></i> Repair Cost</label>
                         <div class="input-with-icon full-width-input-container">
-                            <span class="currency-symbol">₹</span>
+                            <span class="currency-symbol">$</span>
                             {% render_field updateCostForm.cost class="form-control full-width-input" placeholder="Enter repair cost amount" %}
                         </div>
                     </div>
