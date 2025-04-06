@@ -248,23 +248,6 @@ def admin_view_customer_enquiry_view(request):
     data = [(e.customer, e) for e in sorted_enquiries]
     
     return render(request, 'vehicle/admin_view_customer_enquiry.html', {'data': data})
-# @login_required(login_url='adminlogin')
-# def admin_view_customer_enquiry_view(request):
-#     enquiry=models.Request.objects.all().order_by('-id')
-#     array=[]
-#     for e in enquiry:
-#         array.append(e.cost)
-#     sorted_array=insertion_sort_view(array)
-#     enquiry_array=[]
-#     for s in sorted_array:
-#         for e in enquiry:
-#             if s==e.cost:
-#                 enquiry_array.append(e)
-#     customers=[]
-#     for enq in enquiry_array:
-#         customer=models.Customer.objects.get(id=enq.customer_id)
-#         customers.append(customer)
-#     return render(request,'vehicle/admin_view_customer_enquiry.html',{'data':zip(customers,enquiry_array)})
 
 
 @login_required(login_url='adminlogin')
@@ -791,17 +774,45 @@ def edit_mechanic_profile_view(request):
 def aboutus_view(request):
     return render(request,'vehicle/aboutus.html')
 
+# def contactus_view(request):
+#     sub = forms.ContactusForm()
+#     if request.method == 'POST':
+#         sub = forms.ContactusForm(request.POST)
+#         if sub.is_valid():
+#             email = sub.cleaned_data['Email']
+#             name=sub.cleaned_data['Name']
+#             message = sub.cleaned_data['Message']
+#             send_mail(str(name)+' || '+str(email),message,settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
+#             return render(request, 'vehicle/contactussuccess.html')
+#     return render(request, 'vehicle/contactus.html', {'form':sub})
+
 def contactus_view(request):
-    sub = forms.ContactusForm()
     if request.method == 'POST':
         sub = forms.ContactusForm(request.POST)
         if sub.is_valid():
             email = sub.cleaned_data['Email']
-            name=sub.cleaned_data['Name']
+            name = sub.cleaned_data['Name']
             message = sub.cleaned_data['Message']
-            send_mail(str(name)+' || '+str(email),message,settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
+            
+            # Create the email content
+            subject = f"{name} || {email}"
+            full_message = f"""
+            {message}
+            
+            ---
+            This feedback was sent using dhojusagar619@gmail.com as the sender.
+            """
+            
+            send_mail(
+                subject,
+                full_message,
+                settings.EMAIL_HOST_USER,
+                settings.EMAIL_RECEIVING_USER,
+                fail_silently=False
+            )
             return render(request, 'vehicle/contactussuccess.html')
-    return render(request, 'vehicle/contactus.html', {'form':sub})
-
-
+    else:
+        sub = forms.ContactusForm()
+    
+    return render(request, 'vehicle/contactus.html', {'form': sub})
 

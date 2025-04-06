@@ -152,7 +152,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'dhojusagar619@gmail.com'
-EMAIL_HOST_PASSWORD = '@Dhoju19990409'
+EMAIL_HOST_PASSWORD = 'cnok dild vztx bujz'
 EMAIL_RECEIVING_USER = ['saagardhoju414@gmail.com']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -161,6 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 CHATBOT_CONFIG = {
     'AI_MODEL_PATH': os.path.join(BASE_DIR, 'chatbot/ai/models'),
-    'INTENTS_FILE': os.path.join(BASE_DIR, 'chatbot/ai/intents.json'),
+    'MAX_AI_TOKENS': 150,  # Lower than default for Mac stability
+    'TIMEOUT': 10  # Longer timeout for older Macs
 }
 

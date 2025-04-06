@@ -1,14 +1,15 @@
-{% load static %}
+
+    {% load static %}
 <div id="vehicle-chatbot" class="vehicle-chatbot-wrapper">
     <div class="chatbot-header">
         <h3><i class="fas fa-car"></i> AutoCare Assistant</h3>
         <button class="close-chatbot"><i class="fas fa-times"></i></button>
     </div>
     <div class="chatbot-messages">
-        <div class="message bot-message">Hello! I'm your AutoCare assistant. How can I help with your vehicle today?</div>
+        <div class="message bot-message">Hello! I'm your vehicle service assistant. How can I help?</div>
     </div>
     <div class="chatbot-input">
-        <input type="text" id="chatbot-input" placeholder="Ask about services, pricing..." autocomplete="off">
+        <input type="text" id="chatbot-input" placeholder="Ask about services..." autocomplete="off">
         <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
     </div>
 </div>
@@ -67,6 +68,11 @@
     font-size: 18px;
     cursor: pointer;
     padding: 5px;
+    transition: transform 0.2s;
+}
+
+.close-chatbot:hover {
+    transform: scale(1.1);
 }
 
 .chatbot-messages {
@@ -99,6 +105,10 @@
     border: 1px solid #eee;
     margin-right: auto;
     border-bottom-left-radius: 5px;
+}
+
+.bot-message strong {
+    color: #007bff;
 }
 
 .typing-indicator {
@@ -230,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Event listeners for toggle and close
     chatbot.toggle.addEventListener('click', toggleChat);
     chatbot.close.addEventListener('click', toggleChat);
 
@@ -237,7 +248,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function addMessage(content, isBot = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isBot ? 'bot' : 'user'}-message`;
-        messageDiv.textContent = content;
+        
+        // Format message with markdown support
+        let formattedContent = content
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>')
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+        
+        messageDiv.innerHTML = formattedContent;
         chatbot.messages.appendChild(messageDiv);
         scrollToBottom();
     }
@@ -266,11 +284,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return cookieValue || '';
     }
 
-    // Send message to server
+    // Send message to backend
     async function sendMessage() {
         const message = chatbot.input.value.trim();
         if (!message) return;
-
+        
         addMessage(message, false);
         chatbot.input.value = '';
         
@@ -281,29 +299,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken()
+                    'X-CSRFToken': getCSRFToken(),
                 },
                 body: JSON.stringify({ message })
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
+            
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            
             const data = await response.json();
             typingIndicator.remove();
             
             if (data.response) {
-                // Split response by newlines for better formatting
-                data.response.split('\n').forEach(line => {
-                    if (line.trim()) addMessage(line.trim(), true);
-                });
+                addMessage(data.response, true);
             } else {
                 throw new Error('No response from server');
             }
         } catch (error) {
             typingIndicator.remove();
-            addMessage("Sorry, I'm having trouble responding. Please try again later.", true);
+            addMessage(`
+                <strong>Service Note:</strong><br>
+                ${error.message || 'Please try again later'}<br>
+                <a href="tel:5551234">☎️ Call 555-1234</a> for immediate help
+            `, true);
             console.error('Chat error:', error);
         }
     }

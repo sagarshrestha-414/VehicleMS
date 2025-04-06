@@ -46,10 +46,12 @@
     <!-- Recent Requests Card -->
     <div class="card">
         <div class="card-header">
-            <h3>Recent Customer Requests</h3>
-            <div class="search-container">
-                <input type="text" id="Search1" placeholder="Search requests...">
-                <i class="fas fa-search"></i>
+            <div class="card-header-content">
+                <h3>Recent Customer Requests</h3>
+                <div class="search-container">
+                    <input type="text" id="Search1" placeholder="Search requests..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
             </div>
         </div>
         <div class="card-content">
@@ -117,10 +119,12 @@
     <!-- Problem Cost List -->
     <div class="card">
         <div class="card-header">
-            <h3>Problem Cost List</h3>
-            <div class="search-container">
-                <input type="text" id="Search" placeholder="Search problems...">
-                <i class="fas fa-search"></i>
+            <div class="card-header-content">
+                <h3>Problem Cost List</h3>
+                <div class="search-container">
+                    <input type="text" id="Search" placeholder="Search problems..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
             </div>
         </div>
         <div class="card-content">
@@ -274,12 +278,18 @@
     }
 
     .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 20px;
         background: var(--light);
         border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .card-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+        flex-wrap: wrap;
     }
 
     .dark-mode .card-header {
@@ -291,10 +301,54 @@
         margin: 0;
         color: var(--primary);
         font-size: 1.3rem;
+        white-space: nowrap;
     }
 
     .card-content {
         padding: 20px;
+    }
+
+    /* Enhanced Search Bar Styles */
+    .search-container {
+        position: relative;
+        min-width: 250px;
+        max-width: 350px;
+        flex-grow: 1;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 30px;
+        font-size: 1rem;
+        background: white;
+        color: var(--dark);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        box-sizing: border-box;
+    }
+
+    .dark-mode .search-input {
+        background: var(--surface);
+        border-color: var(--surface);
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 2px 12px rgba(78, 115, 223, 0.2);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--secondary);
+        font-size: 1.1rem;
     }
 
     /* Table Styles */
@@ -393,15 +447,40 @@
     }
 
     /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .card-header-content {
+            gap: 15px;
+        }
+        
+        .search-container {
+            min-width: 200px;
+        }
+    }
+
     @media (max-width: 768px) {
         .counters-section {
             grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .card-header-content {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 15px;
+        }
+        
+        .search-container {
+            max-width: 100%;
+            min-width: 100%;
         }
     }
 
     @media (max-width: 576px) {
         .counters-section {
             grid-template-columns: 1fr;
+        }
+        
+        .card-header h3 {
+            font-size: 1.2rem;
         }
     }
 </style>

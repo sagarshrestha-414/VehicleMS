@@ -124,6 +124,27 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
+    /* Watermark styles */
+    .message-container {
+      position: relative;
+    }
+    
+    .message-watermark {
+      position: absolute;
+      top: 40px;
+      left: 12px;
+      color: #999;
+      pointer-events: none;
+      font-style: italic;
+      z-index: 1;
+      transition: all 0.2s ease;
+    }
+    
+    textarea:focus + .message-watermark,
+    textarea:not(:placeholder-shown) + .message-watermark {
+      opacity: 0;
+    }
     
     @media (max-width: 768px) {
       .feedback-container {
@@ -150,16 +171,21 @@
         {% csrf_token %}
         
         <div class="form-group">
-          {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-              <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-              <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-          {% endfor %}
+          <label for="id_Name">Name</label>
+          <input type="text" name="Name" class="form-control" id="id_Name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="id_Email">Email</label>
+          <input type="email" name="Email" value="dhojusagar619@gmail.com" 
+                 class="form-control" id="id_Email" readonly>
+        </div>
+        
+        <div class="form-group message-container">
+          <label for="id_Message">Message</label>
+          <textarea name="Message" class="form-control" id="id_Message" 
+                    rows="3" placeholder=" "></textarea>
+          <div class="message-watermark">Use dhojusagar619@gmail.com to send feedback</div>
         </div>
         
         <div class="text-center mt-4">
@@ -170,11 +196,36 @@
       </form>
     </div>
   </div>
+  
   {% include 'includes/chatbot_widget.html' %}  
   {% include "vehicle/footer.html" %}
   
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const textarea = document.getElementById('id_Message');
+      const watermark = document.querySelector('.message-watermark');
+      
+      // Hide watermark when typing
+      textarea.addEventListener('input', function() {
+        watermark.style.opacity = this.value ? '0' : '1';
+      });
+      
+      // Hide watermark on focus
+      textarea.addEventListener('focus', function() {
+        watermark.style.opacity = '0';
+      });
+      
+      // Show watermark again if empty when losing focus
+      textarea.addEventListener('blur', function() {
+        if (!this.value.trim()) {
+          watermark.style.opacity = '1';
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

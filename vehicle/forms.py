@@ -82,6 +82,29 @@ class AskDateForm(forms.Form):
 
 class ContactusForm(forms.Form):
     Name = forms.CharField(max_length=30)
-    Email = forms.EmailField()
-    Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
+    Email = forms.EmailField(
+        initial='dhojusagar619@gmail.com',
+        widget=forms.EmailInput(attrs={'readonly': 'readonly'})
+    )
+    Message = forms.CharField(
+        max_length=500,
+        widget=forms.Textarea(attrs={'rows': 3, 'cols': 30, 'class': 'message-textarea'}),
+        required=False  # Make optional if you want
+    )
 
+# class ContactusForm(forms.Form):
+#     Name = forms.CharField(max_length=30)
+#     Email = forms.EmailField()
+#     Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
+
+# class ContactusForm(forms.Form):
+#     Name = forms.CharField(max_length=30)
+#     Email = forms.EmailField(
+#         initial='dhojusagar619@gmail.com',
+#         widget=forms.EmailInput(attrs={'readonly': 'readonly'})
+#     )
+#     Message = forms.CharField(
+#         max_length=500,
+#         widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}),
+#         initial='Use dhojusagar619@gmail.com to send feedback'
+#     )
