@@ -28,7 +28,7 @@
                             {% for c,r in data %}
                             <tr>
                                 <td>{{c.get_name}}</td>
-                                <td class="cost-cell">₹{{r.cost__sum|floatformat:2}}</td>
+                                <td class="cost-cell">${{r.cost__sum|floatformat:2}}</td>
                                 <td class="actions">
                                     <a href="#" class="btn-action btn-view" title="View Details">
                                         <i class="fas fa-file-invoice"></i>
